@@ -67,6 +67,12 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
 			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
 		</span>
+		<div class="input-group mt-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Pesquisar por nome">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="searchButton"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
 
 	</form>
 
@@ -140,6 +146,28 @@ if (@$_SESSION["anoRelatorio"] != "") {
 		</div>
 	</div>
 </div>
+
+<script>
+    // Quando o documento estiver totalmente carregado
+    $(document).ready(function() {
+        // Filtragem feita de acordo com cada letra escrita
+        $('#searchInput').on('input', function() {
+            searchTable($(this).val().toLowerCase());
+        });
+
+        // Função para filtrar a tabela de investigadores com base no nome
+        function searchTable(input) {
+            $('tbody tr').each(function() {
+                var nome = $(this).find('td:eq(1)').text().toLowerCase(); // Pega o texto na coluna de nome
+                if (nome.includes(input)) { // Verifica se o nome contém o texto de entrada
+                    $(this).show(); // Exibe a linha se corresponder
+                } else {
+                    $(this).hide(); // Oculta a linha se não corresponder
+                }
+            });
+        }
+    });
+</script>
 
 <script>
 	const Cite = require('citation-js');
