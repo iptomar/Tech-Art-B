@@ -5,22 +5,38 @@ include 'models/functions.php';
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 
-// Definir o número de resultados por página e a página atual
-$results_per_page = 10;
-if (!isset($_GET['page']) || !is_numeric($_GET['page']) || $_GET['page'] <= 0) {
-    $page = 1;
+// Define o número de projetos por página
+$projetos_por_pagina = 3;
+
+// Obtém o número total de projetos
+$query_total = "SELECT COUNT(id) AS total FROM projetos WHERE concluido=true";
+$stmt_total = $pdo->prepare($query_total);
+$stmt_total->execute();
+$total_projetos = $stmt_total->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Calcula o número total de páginas
+$total_paginas = ceil($total_projetos / $projetos_por_pagina);
+
+// Obtém o número da página atual
+$pagina_atual = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? $_GET['pagina'] : 1;
+
+// Calcula o deslocamento (offset) para a consulta SQL
+$offset = ($pagina_atual - 1) * $projetos_por_pagina;
+
+// Verifica se houve uma pesquisa
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = '%' . $_GET['search'] . '%';
+    // Consulta os projetos com base na pesquisa
+    $query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia FROM projetos WHERE concluido=true AND nome LIKE :search ORDER BY nome LIMIT :offset, :projetos_por_pagina";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':search', $search, PDO::PARAM_STR);
 } else {
-    $page = $_GET['page'];
+    // Consulta os projetos para a página atual
+    $query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia FROM projetos WHERE concluido=true ORDER BY nome LIMIT :offset, :projetos_por_pagina";
+    $stmt = $pdo->prepare($query);
 }
-
-// Calcular o deslocamento para a consulta SQL
-$offset = ($page - 1) * $results_per_page;
-
-// Consulta SQL para buscar projetos concluídos paginados
-$query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia FROM projetos WHERE concluido=true LIMIT :offset, :results_per_page";
-$stmt = $pdo->prepare($query);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
+$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+$stmt->bindParam(':projetos_por_pagina', $projetos_por_pagina, PDO::PARAM_INT);
 $stmt->execute();
 $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -31,17 +47,7 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <?= template_header(change_lang("projects-finished-page-heading")); ?>
 
-<!-- Barra de pesquisa -->
-<div class="container mt-3">
-    <form method="get">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Pesquisar por nome" name="search">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Pesquisar</button>
-            </div>
-        </div>
-    </form>
-</div>
+
 
 <!-- product section -->
 <section class="product_section layout_padding">
@@ -64,33 +70,23 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!-- end product section -->
 
 <section class="product_section layout_padding">
+    <!-- Barra de pesquisa -->
+<div class="container mt-3">
+    <form method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Pesquisar por nome" name="search">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Pesquisar</button>
+            </div>
+        </div>
+    </form>
+</div>
    <div style="padding-top: 20px;">
       <div class="container">
          <div class="row justify-content-center mt-3">
-
             <?php
-            // Verificar se houve uma pesquisa
-            if (isset($_GET['search'])) {
-                $search = $_GET['search'];
-                if (!empty($search)) {
-                    // Consulta SQL para buscar projetos concluídos com base no nome
-                    $query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia FROM projetos WHERE concluido=true AND nome LIKE :search";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindValue(':search', '%' . $search . '%');
-                } else {
-                    // Consulta SQL para buscar todos os projetos concluídos
-                    $query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia FROM projetos WHERE concluido=true";
-                    $stmt = $pdo->prepare($query);
-                }
-                $stmt->execute();
-                $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                // Verificar se foram encontrados resultados
-                if (count($projetos) == 0) {
-                    echo '<div class="alert alert-warning" role="alert">Nenhum projeto encontrado com o nome "' . htmlspecialchars($search) . '".</div>';
-                }
-
-                // Exibir projetos encontrados
+            // Verifica se há resultados da pesquisa
+            if (count($projetos) > 0) {
                 foreach ($projetos as $projeto) {
                     echo '
                     <div class="ml-5 imgList">
@@ -102,6 +98,9 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </a>
                     </div>';
                 }
+            } else {
+                // Caso não haja resultados da pesquisa
+                echo '<div class="alert alert-warning" role="alert">Nenhum projeto encontrado com o nome "' . htmlspecialchars($_GET['search']) . '".</div>';
             }
             ?>
          </div>
@@ -110,31 +109,29 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 
-<!-- Paginação -->
-<div class="pagination justify-content-center">
-    <?php
-    // Consulta SQL para contar o total de projetos concluídos
-    $query = "SELECT COUNT(*) AS total FROM projetos WHERE concluido=true";
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $_GET['search'];
-        $query .= " AND nome LIKE :search";
-    }
-    $stmt = $pdo->prepare($query);
-    if (isset($search)) {
-        $stmt->bindValue(':search', '%' . $search . '%');
-    }
-    $stmt->execute();
-    $total_results = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-
-    // Calcular o número total de páginas
-    $num_pages = ceil($total_results / $results_per_page);
-
-    // Exibir links para páginas
-    for ($page = 1; $page <= $num_pages; $page++) {
-        echo '<a href="pagina.php?page=' . $page . '&search=' . urlencode($search) . '">' . $page . '</a>';
-    }
-    ?>
-</div>
+<<nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <!-- Botão da seta esquerda -->
+            <li class="page-item">
+                <a class="page-link" href="?pagina=<?= max(1, $pagina_atual - 1) ?>" aria-label="Previous">
+                    <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <?php for ($i = 1; $i <= $total_paginas; $i++) : ?>
+                <li class="page-item <?= $i == $pagina_atual ? 'active' : '' ?>">
+                    <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
+            <!-- Botão da seta direita -->
+            <li class="page-item">
+                <a class="page-link" href="?pagina=<?= min($total_paginas, $pagina_atual + 1) ?>" aria-label="Next">
+                    <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
 <?= template_footer(); ?>
 
