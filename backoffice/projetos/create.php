@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ambito_en = $_POST["ambito_en"];
     $site_en = $_POST["site_en"];
     $facebook_en = $_POST["facebook_en"];
-    $gestor = isset($_POST['gestor']) ? 1 : 0;
+    $gestor = isset($_POST['gestor']) ? $_POST['gestor'] : 'NULL';
 
 
 
@@ -132,15 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             Concluído
                         </label>
                     </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="gestor" name="gestor">
-                            <label class="form-check-label" for="gestor">
-                                Gestor do Projeto
-                            </label>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="row">
@@ -356,8 +347,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </label><br>
                         <?php }
                     } ?>
+                    <br />
+                    <div class="form-group">
+                        <label for="investigador_select">Gestor</label>
+                        <select class="form-control" id="gestor" name="gestor">
+                            <option value="">Selecione um Gestor</option>
+                            <?php
+                            $sql = "SELECT id, nome, tipo FROM investigadores 
+                            ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) { ?>
+                                    <option value="<?= $row["id"] ?>">
+                                        <?= $row["tipo"] . " - " . $row["nome"] ?>
+                                    </option>
+                                <?php }
+                            }
+                            ?>
+                        </select>
+                    </div>
+
 
                     <!-- Error -->
+
+
                     <div class="help-block with-errors"></div>
                 </div>
 

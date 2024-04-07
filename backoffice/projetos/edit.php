@@ -30,10 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
     }
+    $gestor = isset($_POST['gestor']) ? $_POST['gestor'] : 'NULL';
     $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
 
-    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ? ";
-    $params = [$nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $site, $facebook, $nome_en, $descricao_en, $sobreprojeto_en, $referencia_en, $areapreferencial_en, $financiamento_en, $ambito_en, $site_en, $facebook_en];
+    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ?, gestor = ?";
+    $params = [$nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $site, $facebook, $nome_en, $descricao_en, $sobreprojeto_en, $referencia_en, $areapreferencial_en, $financiamento_en, $ambito_en, $site_en, $facebook_en, $gestor];
 
     // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
     if ($fotografia_exists) {
@@ -59,12 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $sqlinsert = "";
         foreach ($investigadores as $investigadorid) {
-            $sqlinsert = $sqlinsert . "($investigadorid,$id),";
+            $sqlinsert = $sqlinsert . "($investigadorid,$id,$gestor),";
         }
         $sqlinsert = rtrim($sqlinsert, ",");
         $sql = "DELETE FROM investigadores_projetos WHERE projetos_id = " . $id;
         mysqli_query($conn, $sql);
-        $sql = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsert;
+        $sql = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id,gestor) values" . $sqlinsert;
         print_r($sql);
         if (mysqli_query($conn, $sql)) {
             header('Location: index.php');
@@ -105,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ambito_en = $row["ambito_en"];
     $site_en = $row["site_en"];
     $facebook_en = $row["facebook_en"];
+    $gestor = $row["gestor"];
 }
 
 
@@ -409,14 +411,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <br />
                     <div class="form-group">
                         <label>Novo Gestor</label><br>
-                        <select class="form-control" name="investigador_selecionado">
+                        <select class="form-control" name="gestor">
+                            <option value="">Selecione um Gestor</option>
                             <?php
-                            $sql = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = " . $id;
+                            $sql = "SELECT gestor FROM investigadores_projetos WHERE projetos_id = " . $id;
                             $result = mysqli_query($conn, $sql);
                             $selected = array();
                             if (mysqli_num_rows($result) > 0) {
                                 while (($row = mysqli_fetch_assoc($result))) {
-                                    $selected[] = $row['investigadores_id'];
+                                    $selected[] = $row['gestor'];
                                 }
                             }
                             $sql = "SELECT id, nome, tipo FROM investigadores 
