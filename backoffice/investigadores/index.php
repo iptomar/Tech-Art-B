@@ -48,32 +48,14 @@ if (@$_SESSION["anoRelatorio"] != "") {
 
 		<?php
 		if (isset($_SESSION["anoRelatorio"])) {
-			$class = "text-danger";
-			$symbol = "&#xE002;";
 			if (@$_SESSION["anoRelatorio"] != "") {
-				$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
 			} else {
 				$_SESSION["anoRelatorio"] = date("Y");
-				$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
 			}
 		} else {
-			$class = "text-info";
-			$symbol = "&#xE88E;";
 			$msg = "Ano Atual: " . date("Y");
 		}
 		?>
-
-		<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
-			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
-			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
-		</span>
-		<div class="input-group mt-3">
-            <input type="text" class="form-control" id="searchInput" placeholder="Pesquisar por nome">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="searchButton"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-
 	</form>
 
 </div>
