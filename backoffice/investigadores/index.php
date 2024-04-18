@@ -45,6 +45,8 @@ if (@$_SESSION["anoRelatorio"] != "") {
 
 		<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 200px; min-width: 160px; display: inline-block;" value="<?= $anoAtual ?>" />
 		<input type="submit" value="Selecionar Ano" class="btn btn-success" />
+		<!-- Barra de Pesquisa -->
+        <input id="searchInput" type="text" class="form-control ml-2" placeholder="Pesquisar Investigadores" style="max-width: 300px; display: inline-block;">
 
 		<?php
 		if (isset($_SESSION["anoRelatorio"])) {
@@ -149,6 +151,25 @@ if (@$_SESSION["anoRelatorio"] != "") {
             });
         }
     });
+</script>
+<script>$(document).ready(function() {
+    // Filtragem feita de acordo com cada letra escrita
+    $('#searchInput').on('input', function() {
+        searchTable($(this).val().toLowerCase());
+    });
+
+    // Função para filtrar a tabela de investigadores com base no nome
+    function searchTable(input) {
+        $('tbody tr').each(function() {
+            var nome = $(this).find('td:eq(1)').text().toLowerCase(); // Pega o texto na coluna de nome
+            if (nome.includes(input)) { // Verifica se o nome contém o texto de entrada
+                $(this).show(); // Exibe a linha se corresponder
+            } else {
+                $(this).hide(); // Oculta a linha se não corresponder
+            }
+        });
+    }
+});
 </script>
 
 <script>
