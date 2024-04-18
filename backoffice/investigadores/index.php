@@ -56,7 +56,6 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			$msg = "Ano Atual: " . date("Y");
 		}
 		?>
-
 	</form>
 
 </div>
@@ -129,6 +128,28 @@ if (@$_SESSION["anoRelatorio"] != "") {
 		</div>
 	</div>
 </div>
+
+<script>
+    // Quando o documento estiver totalmente carregado
+    $(document).ready(function() {
+        // Filtragem feita de acordo com cada letra escrita
+        $('#searchInput').on('input', function() {
+            searchTable($(this).val().toLowerCase());
+        });
+
+        // Função para filtrar a tabela de investigadores com base no nome
+        function searchTable(input) {
+            $('tbody tr').each(function() {
+                var nome = $(this).find('td:eq(1)').text().toLowerCase(); // Pega o texto na coluna de nome
+                if (nome.includes(input)) { // Verifica se o nome contém o texto de entrada
+                    $(this).show(); // Exibe a linha se corresponder
+                } else {
+                    $(this).hide(); // Oculta a linha se não corresponder
+                }
+            });
+        }
+    });
+</script>
 
 <script>
 	const Cite = require('citation-js');

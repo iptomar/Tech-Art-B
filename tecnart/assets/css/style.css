@@ -15,7 +15,7 @@ header {
 }
 
 .layout_padding {
-  padding: 0px 0px 60px 0px;
+  padding: 0px 0px 10px 0px;
 }
 
 .layout_padding2 {
@@ -1062,10 +1062,10 @@ li.nav-item ul li a {
 
 /** footer **/
 
-
+/*O FOOTER ESTA MAIS FINO -------------*/
 footer {
     background: #333F50;
-    padding: 90px 0 70px;
+    padding: 10px 0 10px;
 }
 
 .logo_footer {
