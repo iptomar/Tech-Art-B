@@ -2,7 +2,18 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
-$sql = "SELECT id, nome, referencia, areapreferencial, financiamento, fotografia, concluido FROM projetos ORDER BY nome";
+if ($_SESSION["autenticado"] == "administrador") {
+    $sql = "SELECT id, nome, referencia, areapreferencial, financiamento, fotografia, concluido FROM projetos ORDER BY nome";
+} else {
+    // Se não for administrador, obtenha o ID do investigador autenticado
+    $id_investigador_autenticado = $_SESSION["autenticado"];
+    // Como não é administrador, faz-se uma consulta nas tabelas projetos e investigadores_projetos para verificar quais projetos o utilizador autenticado participa
+    $sql = "SELECT p.id, p.nome, p.referencia, p.areapreferencial, p.financiamento, p.fotografia, p.concluido 
+            FROM projetos p 
+            INNER JOIN investigadores_projetos ip ON p.id = ip.projetos_id 
+            WHERE ip.investigadores_id = $id_investigador_autenticado 
+            ORDER BY p.nome";
+}
 $result = mysqli_query($conn, $sql);
 
 ?>
