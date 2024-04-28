@@ -44,6 +44,8 @@ $result = mysqli_query($conn, $sql);
 						if ($_SESSION["autenticado"] == "administrador") {
 							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
 							echo '<span>Adicionar Nova Notícia</span></a>';
+							echo '<a href="newsletter.php" class="btn btn-success"><i class="material-icons">&#xE0E1;</i>';
+							echo '<span>Enviar Newsletter</span></a>';
 						}
 						?>
 					</div>
