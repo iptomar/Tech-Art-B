@@ -22,7 +22,7 @@ try {
 
     // Configuração do remetente e destinatário
     $mail->setFrom('tecnartadm@gmail.com', 'TechnArt IPT');
-    $mail->addAddress('gughsleite10@gmail.com', 'Destinatário aqui');
+    $mail->addAddress('', 'Destinatário aqui');
     $mail->addReplyTo('tecnartadm@gmail.com', 'Administração TecnArt');
 
     // Conteúdo do e-mail

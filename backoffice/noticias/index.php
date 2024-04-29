@@ -46,6 +46,8 @@ $result = mysqli_query($conn, $sql);
 							echo '<span>Adicionar Nova Notícia</span></a>';
 							echo '<a href="newsletter.php" class="btn btn-success"><i class="material-icons">&#xE0E1;</i>';
 							echo '<span>Enviar Newsletter</span></a>';
+						}else{
+							
 						}
 						?>
 					</div>
