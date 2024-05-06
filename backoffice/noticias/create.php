@@ -3,34 +3,75 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 
-$mainDir = "../assets/noticias/";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $target_file =  uniqid() . '_' . $_FILES["imagem"]["name"];
-    move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $target_file);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["imagem"]) && $_FILES["imagem"]["error"] == UPLOAD_ERR_OK) {
+    // Client ID do seu aplicativo do Imgur
+    $IMGUR_CLIENT_ID = "";
 
+    // Caminho da imagem a ser enviada
+    $image_source = $_FILES["imagem"]["tmp_name"];
 
-    $sql = "INSERT INTO noticias (titulo, titulo_en, conteudo, conteudo_en, imagem, data, ultimo_editor) " .
-        "VALUES (?,?,?,?,?,?,?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    $titulo = $_POST["titulo"];
-    $titulo_en = $_POST["titulo_en"];
+    // Iniciar sessão cURL
+    $ch = curl_init();
 
-    $conteudo = $_POST["conteudo"];
-    $conteudo_en = $_POST["conteudo_en"];
+    // Configurar a URL da API do Imgur
+    curl_setopt($ch, CURLOPT_URL, 'https://api.imgur.com/3/image');
 
-    $imagem = $target_file;
-    $data = $_POST["data"];
-    $ultimo_editor = $_SESSION["adminid"];
+    // Configurar o método POST
+    curl_setopt($ch, CURLOPT_POST, TRUE);
 
-    mysqli_stmt_bind_param($stmt, 'ssssssi', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $data, $ultimo_editor);
-    if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
-        exit;
+    // Retornar a resposta da solicitação
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+    // Configurar os cabeçalhos da solicitação com o Client ID
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $IMGUR_CLIENT_ID));
+
+    // Configurar os campos da solicitação com a imagem codificada em base64
+    curl_setopt($ch, CURLOPT_POSTFIELDS, array('image' => base64_encode(file_get_contents($image_source))));
+
+    // Executar a solicitação cURL
+    $response = curl_exec($ch);
+
+    // Fechar a sessão cURL
+    curl_close($ch);
+
+    // Decodificar a resposta JSON
+    $response = json_decode($response, true);
+
+    // Verificar se o upload foi bem-sucedido e obter a URL da imagem
+    if ($response && $response['success']) {
+        $imageUrl = $response['data']['link'];
+
+        // Mover o arquivo para o diretório local (opcional)
+        $mainDir = "../assets/noticias/";
+        $target_file = uniqid() . '_' . $_FILES["imagem"]["name"];
+        move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $target_file);
+
+        // Inserir a notícia no banco de dados com a URL da imagem do Imgur
+        $sql = "INSERT INTO noticias (titulo, titulo_en, conteudo, conteudo_en, imagem, data, ultimo_editor) " .
+            "VALUES (?,?,?,?,?,?,?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        $titulo = $_POST["titulo"];
+        $titulo_en = $_POST["titulo_en"];
+        $conteudo = $_POST["conteudo"];
+        $conteudo_en = $_POST["conteudo_en"];
+        $imagem = $imageUrl;
+        $data = $_POST["data"];
+        $ultimo_editor = $_SESSION["adminid"];
+
+        mysqli_stmt_bind_param($stmt, 'ssssssi', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $data, $ultimo_editor);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: index.php');
+            exit;
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        // O upload falhou ou a resposta não foi a esperada
+        echo "Erro ao enviar a imagem para o Imgur.";
     }
 }
 ?>
+
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </link>

@@ -22,6 +22,7 @@ try {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
 
+
     // Configuração do remetente
     $mail->setFrom('tecnartadm@gmail.com', 'TechnArt IPT');
     $mail->addReplyTo('tecnartadm@gmail.com', 'Administração TecnArt');
@@ -40,7 +41,7 @@ try {
         $emailBody .= '<h2>' . $row['titulo'] . '</h2>';
         $emailBody .= '<p>' . $row['conteudo'] . '</p>';
         $emailBody .= '<p>Data: ' . $row['data'] . '</p>';
-        $emailBody .= '<img src="' . $row['imagem'] . '"/>';
+        $emailBody .= '<img src="' . $row['imagem'] . '" width=100px height=100px />';
         $emailBody .= '<hr>';
     }
 
