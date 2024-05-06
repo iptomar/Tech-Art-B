@@ -119,7 +119,7 @@ INSERT INTO `investigadores` (`id`, `nome`, `email`, `ciencia_id`, `sobre`, `sob
 (20, 'Bogus Oito', 'bogusoito@cienciaid.com', 'C715-1E14-0978', 'ewf', '', 'Colaborador', '6528461fca81a_depositphotos_10962027.jpg', 'efw', '', '0000-0003-2433-0883', '', '', '', '$2y$10$F.DlN/IiCga6p7TwHvrtMuquSs/zSoctKzSiZ9dW0qqx76cpeCR.G', NULL),
 (21, 'João Mendes Moreira', 'jmm.fccn2018@gmail.com', 'AF1B-8D21-A7AF', '123', '', 'Colaborador', '6528463fcd40c_Valton-Pessoa-868x1300.jpg', '213', '', '0000-0002-6504-2987', '', '', '', '$2y$10$kwh7wopOVmpL63xfEaoa6.zcfq9vTk3.DJp0ZbEgk3Ei1AzQrulwu', NULL),
 (22, 'João', 'joao@test.test', '1019-2EC9-876A', 'dw', '', 'Colaborador', '65284635052d6_istockphoto-1029759424-170667a.jpg', 'wqd', '', '0000-0003-2433-0883', '', '', '', '$2y$10$j5FjnHPoVZfSnUmqLIFY..M4kq.MgCmvXCx3gHciTbag/2Un82g9K', NULL),
-(25, 'Carolina Santos', '', '', '', '', 'Externo', '652e5eb59976f_joana-bento-rodrigues.jpg', '', '', '', '', '', '', '$2y$10$R3vWRFOS4G4QRMOTugChBuqECYujjf5T6weWqjMBOJOlcw16ox8lu', NULL);
+(25, 'Carolina Santos', 'c.santos@ipt.pt', '', '', '', 'Externo', '652e5eb59976f_joana-bento-rodrigues.jpg', '', '', '', '', '', '', '$2y$10$R3vWRFOS4G4QRMOTugChBuqECYujjf5T6weWqjMBOJOlcw16ox8lu', NULL);
 
 -- --------------------------------------------------------
 

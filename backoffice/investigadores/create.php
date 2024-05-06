@@ -1,9 +1,9 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
-//Se o utilizador não é um administrado
+// Se o utilizador não é um administrador
 if ($_SESSION["autenticado"] != "administrador") {
-    //não tem permissão para criar um novo investigador
+    // não tem permissão para criar um novo investigador
     header("Location: index.php");
     exit;
 }
@@ -13,13 +13,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST['password'] == $_POST['repeatPassword']) {
 
         $target_file = uniqid() . '_' . $_FILES["fotografia"]["name"];
-        //transferir a imagem para a pasta de assets
+        // transferir a imagem para a pasta de assets
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $target_file);
 
-        $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password) " .
+        // Inserindo na tabela de investigadores
+        $sql_investigadores = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse, areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password) " .
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password);
+        $stmt_investigadores = mysqli_prepare($conn, $sql_investigadores);
+        mysqli_stmt_bind_param($stmt_investigadores, 'ssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password);
+        
+        // Inserindo na tabela de assinantes
+        $sql_assinantes = "INSERT INTO assinantes (nome, email, data_inscricao) VALUES (?,?,NOW())";
+        $stmt_assinantes = mysqli_prepare($conn, $sql_assinantes);
+        mysqli_stmt_bind_param($stmt_assinantes, 'ss', $nome, $email);
+
         $nome = $_POST["nome"];
         $email = $_POST["email"];
         $ciencia_id = $_POST["ciencia_id"];
@@ -37,17 +44,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_POST["password"] = substr(str_shuffle(strtolower(sha1(rand() . time()))), 0, $PASSWORD_LENGTH);
         }
         $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-        if (mysqli_stmt_execute($stmt)) {
+        
+        // Executando as consultas
+        mysqli_stmt_execute($stmt_investigadores);
+        mysqli_stmt_execute($stmt_assinantes);
+
+        if (mysqli_stmt_affected_rows($stmt_investigadores) > 0 && mysqli_stmt_affected_rows($stmt_assinantes) > 0) {
             header('Location: index.php');
             exit;
         } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Error: " . $sql_investigadores . "<br>" . mysqli_error($conn);
         }
     } else {
         echo "Error: Passwords não são iguais";
     }
 }
 ?>
+
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </link>
