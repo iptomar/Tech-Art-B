@@ -18,7 +18,8 @@ function save_file($id, $new_name, $file)
 }
 
 
-function changeLanguage($language){
+function changeLanguage($language)
+{
     $_SESSION["lang"] = $language;
 }
 
@@ -258,8 +259,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 <div class="container mt-3">
     <div class="align-option w-100 mb-3">
+
         <a type="button" class="text-decoration-none pr-2" style="font-weight:<?= $_SESSION["lang"] == "pt" ? "bold" : "normal" ?>;" onclick="confirmChange('pt')">PT</a>
         <a type="button" class="text-decoration-none" style="font-weight: <?= $_SESSION["lang"] == "en" ? "bold" : "normal" ?>;" onclick="confirmChange('en')">EN</a>
+
 
     </div>
     <div class="card">
@@ -358,16 +361,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const confirmed = confirm('Warning: Changing the language will reset all your input. Any unsaved progress will be lost. Are you sure you want to proceed?');
         console.log('Current session language:', <?php echo json_encode($_SESSION["lang"]); ?>);
         fetch(`session_language.php`, {
-    	method: "POST",
-		headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        },
-		body: `newLanguage=${language}`,
-    }).then(async function(response) {
-        return response.text().then(async function(text) {
-			location.replace(location.href);
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: `newLanguage=${language}`,
+        }).then(async function (response) {
+            return response.text().then(async function (text) {
+                location.replace(location.href);
+            });
         });
-    });
 
         if (!confirmed) {
             event.preventDefault(); // prevent the form from submitting if the user doesn't confirm

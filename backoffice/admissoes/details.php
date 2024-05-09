@@ -1,4 +1,12 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+
+
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
@@ -19,6 +27,89 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $row = mysqli_fetch_assoc($result);
 
+
+
+        // Encriptar a senha
+        $password_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
+
+        // Prepara a inserção na tabela investigadores
+        $sql_insert = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse, areasdeinteresse_en, orcid, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt_insert = mysqli_prepare($conn, $sql_insert);
+        mysqli_stmt_bind_param($stmt_insert, 'sssssssssss', $row['nome_completo'], $row['email'], $row['ciencia_id'], $row['biografia'], $row['biografia'], $row['tipo'], $row['ficheiro_fotografia'], $row['area_investigacao'], $row['area_investigacao'], $row['orcid'], $password_hash);
+
+        // Executa a inserção
+        mysqli_stmt_execute($stmt_insert);
+
+        // Verifica se a inserção foi bem-sucedida
+        if (mysqli_stmt_affected_rows($stmt_insert) > 0) {
+            // Remove a admissão da tabela admissoes
+            $sql_delete = "DELETE FROM admissoes WHERE id = ?";
+            $stmt_delete = mysqli_prepare($conn, $sql_delete);
+            mysqli_stmt_bind_param($stmt_delete, 'i', $id);
+            mysqli_stmt_execute($stmt_delete);
+
+            if (mysqli_stmt_affected_rows($stmt_insert) > 0) {
+                // Remove a admissão da tabela admissoes
+                $sql_delete = "DELETE FROM admissoes WHERE id = ?";
+                $stmt_delete = mysqli_prepare($conn, $sql_delete);
+                mysqli_stmt_bind_param($stmt_delete, 'i', $id);
+                mysqli_stmt_execute($stmt_delete);
+
+
+                $mail = new PHPMailer(true);
+
+                try {
+                    // Configuração do servidor SMTP
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'tecnartadm@gmail.com';
+                    $mail->Password = 'nqfi ywzk jboh hpim';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port = 587;
+
+
+                    // Configuração do remetente
+                    $mail->setFrom('tecnartadm@gmail.com', 'TechnArt IPT');
+                    $mail->addReplyTo('tecnartadm@gmail.com', 'Administração TecnArt');
+
+                    $emailBody = '';  // Inicializando a variável
+                    $emailBody .= '<h1>Prezado(a) ' . $row['nome_completo'] . '</h1>';
+                    $emailBody .= '<p>Saudações da Administração da TechnArt!</p>';
+                    $emailBody .= '<p>Gostaríamos de informá-lo(a) que sua admissão foi aceita em nosso site. Como parte do processo de criação de conta, geramos uma nova palavra-passe para você.</p>';
+                    $emailBody .= '<p>Aqui está sua nova palavra-passe: <strong>' . $nova_senha . '</strong></p>';
+                    $emailBody .= '<p>Por favor, lembre-se de manter esta senha em um local seguro e não compartilhá-la com ninguém. Recomendamos que você faça login em sua conta o mais rápido possível e altere a palavra-passe para uma de sua preferência.</p>';
+                    $emailBody .= '<p>Se precisar de assistência adicional ou tiver alguma dúvida, não hesite em entrar em contato conosco. Estamos aqui para ajudar!</p>';
+                    $emailBody .= '<p>Atenciosamente,<br>Administração TechnArt</p>';
+
+
+
+
+
+                    $mail->CharSet = 'UTF-8';
+                    $mail->addAddress($row['email'], $row['nome_completo']);
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Admissão Aceite';
+                    $mail->Body = $emailBody;
+                    $mail->AltBody = 'Para visualizar este email, use um cliente de email que suporte HTML.';
+                    $mail->send();
+                    $mail->clearAddresses(); // Limpa os destinatários para o próximo loop
+
+                    echo 'E-mail enviado com sucesso!';
+                } catch (Exception $e) {
+                    echo "Erro ao enviar o e-mail: {$mail->ErrorInfo}";
+                }
+
+
+
+                // Redireciona de volta para index.php
+                header("Location: index.php");
+                exit(); // Certifique-se de sair do script após o redirecionamento
+
+            }
+        }
+    }
+}
 
 ?>
 
