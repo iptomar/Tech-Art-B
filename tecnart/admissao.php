@@ -30,7 +30,7 @@ $dados = array(
     "dados_ciencia_id" => change_lang("admission-cienciaid"),
     "dados_orcid" => change_lang("admission-orcid"),
     "dados_email" => change_lang("admission-email"),
-    "dados_telefone" => change_lang("admission-cellphone"),
+    "dados_telefone" =>  change_lang("admission-cellphone"),
     "dados_grau_academico" => change_lang("admission-academic-qualifications"),
     "dados_ano_conclusao_academico" => change_lang("admission-year-conclusion"),
     "dados_area_academico" => change_lang("admission-field-expertise"),
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         //Verificar se um dos botões radio dados_pertencer_outro foi selecianado
         if (!isset($_POST['dados_pertencer_outro'])) {
-            $msg .= change_lang('admission-member-another') . "<br>";
+            $msg .=  change_lang('admission-member-another') . "<br>";
             $error = true;
         }
         //O input dados_outro_texto não é obrigatorio logo pode estar vazio mas deve existir para o comando correr
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         //Verificar se o texto da textarea dados_biografia não está vario
         if (!isset($_POST['dados_biografia']) || empty(trim($_POST['dados_biografia']))) {
-            $msg .= change_lang('admission-biography') . "<br>";
+            $msg .= change_lang('admission-biography')  . "<br>";
             $error = true;
         }
 
@@ -118,28 +118,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         //Se não ocurreram erros previamente, se todos os dados estão corretos e foi possivel conectar àBD
-//Preparar e correr o comando de Insert
+        //Preparar e correr o comando de Insert
         if (!$error) {
             $sql = "INSERT INTO admissoes (
-        `nome_completo`, `nome_profissional`, `ciencia_id`, 
-        `orcid`, `email`, `telefone`, 
-        `grau_academico`, `ano_conclusao_academico`, `area_academico`, `area_investigacao`, 
-        `instituicao_vinculo`, `percentagem_dedicacao`, `pertencer_outro`, 
-        `outro_texto`, `biografia`, `ficheiro_motivacao`, 
-        `ficheiro_recomendacao`, `ficheiro_cv`, `ficheiro_fotografia`,
-        `tipo`) 
-    VALUES (
-        :dados_nome, :dados_nome_prof, :dados_ciencia_id,
-        :dados_orcid, :dados_email, :dados_telefone,
-        :dados_grau_academico, :dados_ano_conclusao_academico, :dados_area_academico,
-        :dados_area_investigacao, :dados_instituicao_vinculo, :dados_percentagem_dedicacao,
-        :dados_pertencer_outro, :dados_outro_texto, :dados_biografia, :f_motivacao,
-        :f_recomendacao, :f_cv, :f_fotografia, :tipo)";
-            $stmt = $pdo->prepare($sql); // Preparando a declaração SQL aqui
-
+                    `nome_completo`, `nome_profissional`, `ciencia_id`, 
+                    `orcid` , `email`, `telefone` , 
+                    `grau_academico`, `ano_conclusao_academico`, `area_academico`, `area_investigacao` , 
+                    `instituicao_vinculo`, `percentagem_dedicacao`, `pertencer_outro` , 
+                    `outro_texto`, `biografia`, `ficheiro_motivacao`, 
+                    `ficheiro_recomendacao`, `ficheiro_cv`, `ficheiro_fotografia`) VALUES ( 
+                    :dados_nome, :dados_nome_prof, :dados_ciencia_id,
+                    :dados_orcid, :dados_email, :dados_telefone, 
+                    :dados_grau_academico, :dados_ano_conclusao_academico, :dados_area_academico, 
+                    :dados_area_investigacao, :dados_instituicao_vinculo, :dados_percentagem_dedicacao,
+                    :dados_pertencer_outro, :dados_outro_texto, :dados_biografia, :f_motivacao,
+                    :f_recomendacao, :f_cv, :f_fotografia
+                    )";
             //Fazer o bind dos parametros $_POST
-            $stmt->bindParam(":tipo", $_POST['tipo'], PDO::PARAM_STR);
-
+            $stmt = $pdo->prepare($sql);
             foreach ($_POST as $key => $value) {
                 $param_name = 'dados_';
                 if (substr($key, 0, strlen($param_name)) == $param_name) {
@@ -147,12 +143,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     //Verificar se os dados é o dados_pertencer_outro que usa bool não string
                     if ($key == "dados_pertencer_outro") {
                         //Utilizou-se PARAM_INT em vez de PARAM_BOOL para funcionar no servidor, com PARAM_BOOL o INSERT falhava
-                        $valuetype = PDO::PARAM_INT;
+                        $valuetype =  PDO::PARAM_INT;
                         $value = $_POST['dados_pertencer_outro'] == 'true' ? true : false;
                     }
                     //Se o valor está vazio enviar como null
-                    if ($value === '')
-                        $value = null;
+                    if ($value === '') $value = null;
                     $stmt->bindValue($key, $value, $valuetype);
                 }
             }
@@ -163,10 +158,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nome_fotografia = "fotografia" . time() . "." . pathinfo($_FILES["fotografia"]["name"], PATHINFO_EXTENSION);
 
             //Colocar os novos nomes no comando insert
-            $stmt->bindParam(":f_motivacao", $nome_motivacao, PDO::PARAM_STR);
-            $stmt->bindParam(":f_recomendacao", $nome_recomendacao, PDO::PARAM_STR);
-            $stmt->bindParam(":f_cv", $nome_cv, PDO::PARAM_STR);
-            $stmt->bindParam(":f_fotografia", $nome_fotografia, PDO::PARAM_STR);
+            $stmt->bindParam("f_motivacao", $nome_motivacao, PDO::PARAM_STR);
+            $stmt->bindParam("f_recomendacao", $nome_recomendacao, PDO::PARAM_STR);
+            $stmt->bindParam("f_cv", $nome_cv, PDO::PARAM_STR);
+            $stmt->bindParam("f_fotografia", $nome_fotografia, PDO::PARAM_STR);
 
             $pdo->beginTransaction();
             try {
@@ -195,9 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
 }
-
 ?>
 
 <head>
@@ -265,10 +258,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 <div class="container mt-3">
     <div class="align-option w-100 mb-3">
-        <a class="text-decoration-none pr-2"
-            style="font-weight:<?= $_SESSION["lang"] == "pt" ? "bold" : "normal\"" . "; href='session_var_pt.php'; onclick='confirmChange()';" ?>">PT</a>
-        <a class="text-decoration-none"
-            style="font-weight:<?= $_SESSION["lang"] == "en" ? "bold" : "normal\"" . "; href='session_var_en.php'; onclick='confirmChange()'" ?>;">EN</a>
+        <a type="button" class="text-decoration-none pr-2" style="font-weight:<?= $_SESSION["lang"] == "pt" ? "bold" : "normal" ?>;" onclick="confirmChange('pt')">PT</a>
+        <a type="button" class="text-decoration-none" style="font-weight: <?= $_SESSION["lang"] == "en" ? "bold" : "normal" ?>;" onclick="confirmChange('en')">EN</a>
 
     </div>
     <div class="card">
@@ -290,8 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 foreach ($dados as $id => $name) {
                     $placeholder = change_lang("admission-placeholder");
                     $type = "text";
-                    if ($id == "dados_email")
-                        $type = "email";
+                    if ($id == "dados_email") $type = "email";
 
                     $value = '';
                     // Verifica se existe um valor POST para colocar no input
@@ -309,19 +299,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class='form-group'>
                     <label><?= change_lang("admission-member-another") ?> </label>
                     <div class="form-check">
-                        <input required value="true" class="form-check-input" type="radio" name="dados_pertencer_outro"
-                            id="dados_pertencer_outro1" <?php if (isset($_POST['dados_pertencer_outro']) && $_POST['dados_pertencer_outro'] == 'true') {
-                                echo ' checked';
-                            } ?>>
+                        <input required value="true" class="form-check-input" type="radio" name="dados_pertencer_outro" id="dados_pertencer_outro1" <?php if (isset($_POST['dados_pertencer_outro']) && $_POST['dados_pertencer_outro'] == 'true') {
+                                                                                                                                                        echo ' checked';
+                                                                                                                                                    } ?>>
                         <label class="form-check-label" for="dados_pertencer_outro1">
                             <?= change_lang("admission-member-yes") ?>
                         </label>
                     </div>
                     <div class="form-check">
-                        <input required value="false" class="form-check-input" type="radio" name="dados_pertencer_outro"
-                            id="dados_pertencer_outro2" <?php if (isset($_POST['dados_pertencer_outro']) && $_POST['dados_pertencer_outro'] == 'false') {
-                                echo ' checked';
-                            } ?>>
+                        <input required value="false" class="form-check-input" type="radio" name="dados_pertencer_outro" id="dados_pertencer_outro2" <?php if (isset($_POST['dados_pertencer_outro']) && $_POST['dados_pertencer_outro'] == 'false') {
+                                                                                                                                                            echo ' checked';
+                                                                                                                                                        } ?>>
                         <label class="form-check-label" for="dados_pertencer_outro2">
                             <?= change_lang("admission-member-no") ?>
                         </label>
@@ -331,33 +319,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class='form-group'>
                     <label><?= change_lang("admission-another-centre-info") ?></label>
-                    <input type='text' id='dados_outro_texto' placeholder="<?= change_lang("admission-placeholder") ?>"
-                        name='dados_outro_texto' minlength='1' class='form-control'
-                        value="<?= isset($_POST['dados_outro_texto']) ? $_POST['dados_outro_texto'] : '' ?>">
+                    <input type='text' id='dados_outro_texto' placeholder="<?= change_lang("admission-placeholder") ?>" name='dados_outro_texto' minlength='1' class='form-control' value="<?= isset($_POST['dados_outro_texto']) ? $_POST['dados_outro_texto'] : '' ?>">
                     <!-- Error -->
                     <div class='help-block with-errors'></div>
                 </div>
 
                 <div class='form-group'>
                     <label><?= change_lang("admission-biography") ?></label>
-                    <textarea id='dados_biografia' placeholder="<?= change_lang("admission-placeholder") ?>"
-                        name='dados_biografia' required
-                        class='form-control'><?= isset($_POST['dados_biografia']) ? $_POST['dados_biografia'] : '' ?></textarea>
+                    <textarea id='dados_biografia' placeholder="<?= change_lang("admission-placeholder") ?>" name='dados_biografia' required class='form-control'><?= isset($_POST['dados_biografia']) ? $_POST['dados_biografia'] : '' ?></textarea>
                     <!-- Error -->
                     <div class='help-block with-errors'></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Tipo</label><br>
-                    <select name="tipo" id="tipo" required>
-                        <option value="">--Select--</option>
-                        <option value="Integrado">Integrado/a</option>
-                        <option value="Colaborador">Colaborador/a</option>
-                        <option value="Aluno">Aluno/a</option>
-                        <option value="Externo">Externo</option>
-                    </select>
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
                 </div>
 
                 <?php
@@ -373,10 +344,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 ?>
                 <div class="form-group">
-                    <button type="submit"
-                        class="btn btn-primary btn-block mb-3"><?= change_lang("admission-submit") ?></button>
-                    <button type="button" onclick="window.location.href = 'index.php'"
-                        class="btn btn-danger btn-block"><?= change_lang("admission-cancel") ?></button>
+                    <button type="submit" class="btn btn-primary btn-block mb-3"><?= change_lang("admission-submit") ?></button>
+                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block"><?= change_lang("admission-cancel") ?></button>
                 </div>
 
             </form>
