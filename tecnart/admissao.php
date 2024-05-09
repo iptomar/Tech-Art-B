@@ -17,6 +17,11 @@ function save_file($id, $new_name, $file)
     return false;
 }
 
+
+function changeLanguage($language){
+    $_SESSION["lang"] = $language;
+}
+
 //Array que mapeia os nomes/ids dos inputs com os seus respectivos títulos
 //exceto o dados_pertencer_outro, dados_outro_texto, e dados_biografia
 $dados = array(
@@ -203,6 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title><?= change_lang("admission-title") ?></title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </head>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -263,6 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             style="font-weight:<?= $_SESSION["lang"] == "pt" ? "bold" : "normal\"" . "; href='session_var_pt.php'; onclick='confirmChange()';" ?>">PT</a>
         <a class="text-decoration-none"
             style="font-weight:<?= $_SESSION["lang"] == "en" ? "bold" : "normal\"" . "; href='session_var_en.php'; onclick='confirmChange()'" ?>;">EN</a>
+
     </div>
     <div class="card">
         <div class="card-header">
@@ -378,8 +385,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <script>
-    function confirmChange() {
+    function confirmChange(language) {
         const confirmed = confirm('Warning: Changing the language will reset all your input. Any unsaved progress will be lost. Are you sure you want to proceed?');
+        console.log('Current session language:', <?php echo json_encode($_SESSION["lang"]); ?>);
+        fetch(`session_language.php`, {
+    	method: "POST",
+		headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+		body: `newLanguage=${language}`,
+    }).then(async function(response) {
+        return response.text().then(async function(text) {
+			location.replace(location.href);
+        });
+    });
+
         if (!confirmed) {
             event.preventDefault(); // prevent the form from submitting if the user doesn't confirm
         }
