@@ -192,8 +192,8 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="z-index: 1;" class="image_default">
-                           <img class="img-fluid" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
+                        <div style="width: 300px;height: 300px; overflow: hidden; z-index: 1;" class="image_default">
+                           <img style="width: 100%; height: 100%; object-fit: cover;"  src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
                               <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
                                  <?php

@@ -45,7 +45,32 @@ include 'models/functions.php';
                         $groupedPublicacoes[$year][$site] = array();
                     }
 
-                    $groupedPublicacoes[$year][$site][] = $publicacao['dados'];
+                    // Normaliza o título da publicação removendo espaços em branco extras e convertendo para minúsculas
+                    $normalized_title = strtolower(trim(preg_replace('/\s+/', ' ', $publicacao['dados'])));
+
+                    // Verifica se a publicação já existe no site para evitar duplicatas
+                    $exists = false;
+                    foreach ($groupedPublicacoes[$year][$site] as $existing_publicacao) {
+                        // Normaliza o título da publicação existente para comparação
+                        $normalized_existing_title = strtolower(trim(preg_replace('/\s+/', ' ', $existing_publicacao)));
+
+
+                        // Calcula a distância de Levenshtein entre os títulos normalizados
+                        $levenshtein_distance = levenshtein($normalized_title, $normalized_existing_title);
+                        $title_length = max(strlen($normalized_title), strlen($normalized_existing_title));
+                        $similarity_percentage = (($title_length - $levenshtein_distance) / $title_length) * 100;
+
+                        if ($similarity_percentage >= 90) { // Valor somos nós que escolhemos, convém ser alto 
+                            // Se a similaridade for alta, consideramos as publicações duplicadas
+                            $exists = true;
+                            break;
+                        }
+                    }
+
+                    if (!$exists) {
+                        // Se não existir, adiciona a publicação ao grupo
+                        $groupedPublicacoes[$year][$site][] = $publicacao['dados'];
+                    }
                 }
                 ?>
                 <script src="../backoffice/assets/js/citation-js-0.6.8.js"></script>
@@ -62,11 +87,11 @@ include 'models/functions.php';
                                 <div style="margin-left: 20px;" id="publications<?= $year ?><?= $site ?>">
                                     <?php foreach ($publicacoes as $publicacao) : ?>
                                         <script>
-                                        var formattedCitation = new Cite(<?= json_encode($publicacao) ?>).format('bibliography', {
+                                            var formattedCitation = new Cite(<?= json_encode($publicacao) ?>).format('bibliography', {
                                                 format: 'html',
                                                 template: 'apa',
                                                 lang: 'en-US'
-                                            });;
+                                            });
                                             var citationContainer = document.createElement('div');
                                             citationContainer.innerHTML = formattedCitation;
                                             citationContainer.classList.add('mb-3');

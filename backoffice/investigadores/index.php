@@ -45,35 +45,19 @@ if (@$_SESSION["anoRelatorio"] != "") {
 
 		<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 200px; min-width: 160px; display: inline-block;" value="<?= $anoAtual ?>" />
 		<input type="submit" value="Selecionar Ano" class="btn btn-success" />
+		<!-- Barra de Pesquisa -->
+        <input id="searchInput" type="text" class="form-control ml-2" placeholder="Pesquisar Investigadores" style="max-width: 300px; display: inline-block;">
 
 		<?php
 		if (isset($_SESSION["anoRelatorio"])) {
-			$class = "text-danger";
-			$symbol = "&#xE002;";
 			if (@$_SESSION["anoRelatorio"] != "") {
-				$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
 			} else {
 				$_SESSION["anoRelatorio"] = date("Y");
-				$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
 			}
 		} else {
-			$class = "text-info";
-			$symbol = "&#xE88E;";
 			$msg = "Ano Atual: " . date("Y");
 		}
 		?>
-
-		<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
-			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
-			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
-		</span>
-		<div class="input-group mt-3">
-            <input type="text" class="form-control" id="searchInput" placeholder="Pesquisar por nome">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="searchButton"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-
 	</form>
 
 </div>
@@ -167,6 +151,25 @@ if (@$_SESSION["anoRelatorio"] != "") {
             });
         }
     });
+</script>
+<script>$(document).ready(function() {
+    // Filtragem feita de acordo com cada letra escrita
+    $('#searchInput').on('input', function() {
+        searchTable($(this).val().toLowerCase());
+    });
+
+    // Função para filtrar a tabela de investigadores com base no nome
+    function searchTable(input) {
+        $('tbody tr').each(function() {
+            var nome = $(this).find('td:eq(1)').text().toLowerCase(); // Pega o texto na coluna de nome
+            if (nome.includes(input)) { // Verifica se o nome contém o texto de entrada
+                $(this).show(); // Exibe a linha se corresponder
+            } else {
+                $(this).hide(); // Oculta a linha se não corresponder
+            }
+        });
+    }
+});
 </script>
 
 <script>
