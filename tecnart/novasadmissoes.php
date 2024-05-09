@@ -21,7 +21,8 @@ include 'models/functions.php';
                 <div class="flex-container mobile_reverse">
                     <div class="flex-left">
                         <figure class="imgfigura">
-                            <img class="w-100" style="max-width: 330px;" src="./assets/images/technart_color.png" alt="Techn&Art">
+                            <img class="w-100" style="max-width: 330px;" src="./assets/images/technart_color.png"
+                                alt="Techn&Art">
                         </figure>
                     </div>
                     <div class="flex-right">
@@ -35,7 +36,8 @@ include 'models/functions.php';
                         </p>
                         <br>
                         <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="admissao.php">
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
+                            href="admissao.php">
                             <?= change_lang("new-admissions-regulations-fill") ?>
                         </a>
                     </div>
