@@ -344,6 +344,7 @@ function ret_dic_en()
         "admission-file-size-error" => "ERROR: File size exceeds the maximum limit of " . MAX_FILE_SIZE . "MB",
         "admission-required-error" => "ERROR: Failed to retrieve data from the fields",
         "admission-send-error" => "Database ERROR: Please try again later",
+        "admission-email-exists" => "The email entered already exists. Please enter another one.",
         "admission-successful" => "The form was successfully submitted",
 
         //::::::financiamento.php::::::

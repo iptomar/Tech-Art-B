@@ -1,6 +1,7 @@
-<?php 
+<?php
 include_once "config/configurations.php";
-function ret_dic_pt(){
+function ret_dic_pt()
+{
 
 
 
@@ -343,6 +344,7 @@ function ret_dic_pt(){
         "admission-file-size-error" => "ERRO: O tamanho do ficheiro excede o limite máximo de " . MAX_FILE_SIZE . "MB",
         "admission-required-error" => "ERRO: Não foi possível obter os dados dos campos",
         "admission-send-error" => "ERRO Base de dados: Por favor, tente novamente mais tarde",
+        "admission-email-exists" => "O e-mail insirido já existe. Insira outro. ",
         "admission-successful" => "O formulário foi enviado com sucesso",
 
         //::::::financiamento.php::::::

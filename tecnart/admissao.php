@@ -23,6 +23,27 @@ function changeLanguage($language)
     $_SESSION["lang"] = $language;
 }
 
+// Verifica se o e-mail já existe na tabela "admissoes" e "investigadores"
+function checkEmailExists($pdo, $email)
+{
+    // Verificar se o e-mail já existe na tabela "admissoes"
+    $sql = "SELECT COUNT(*) AS count FROM admissoes WHERE email = :email";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar se o e-mail já existe na tabela "investigadores"
+    $sql2 = "SELECT COUNT(*) AS count FROM investigadores WHERE email = :email";
+    $stmt2 = $pdo->prepare($sql2);
+    $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
+    $stmt2->execute();
+    $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+    // Retornar verdadeiro se o e-mail existe em uma das tabelas
+    return ($result['count'] > 0 || $result2['count'] > 0);
+}
+
 //Array que mapeia os nomes/ids dos inputs com os seus respectivos títulos
 //exceto o dados_pertencer_outro, dados_outro_texto, e dados_biografia
 $dados = array(
@@ -60,7 +81,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         $error = false;
-        $msg = change_lang("admission-required-error") . ": <br>";
+        // Verificar se o e-mail já existe nas tabelas "admissoes" e "investigadores"
+        try {
+            $pdo = pdo_connect_mysql();
+            if (checkEmailExists($pdo, $_POST['dados_email'])) {
+                show_error(change_lang("admission-email-exists"));
+                $error = true;
+            }
+        } catch (Exception $e) {
+            show_error(change_lang("admission-send-error"));
+            $error = true;
+        }
         //Verificar se todos os campos do array dados existem e foram preenchidos
         foreach ($dados as $key => $value) {
             if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
@@ -105,10 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error = true;
             }
         }
-        //Mostrar a msg como erro se o occurreu algum erro na validação dos dados
-        if ($error) {
-            show_error($msg);
-        }
+
 
         //Tentar conectar à BD
         try {
