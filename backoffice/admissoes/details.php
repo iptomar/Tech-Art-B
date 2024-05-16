@@ -40,6 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['admitir_investigador']
 
         // Verifica se a inserção foi bem-sucedida
         if (mysqli_stmt_affected_rows($stmt_insert) > 0) {
+            // Inserir na tabela assinantes
+            $sql_insert_assinante = "INSERT INTO assinantes (nome, email, data_inscricao) VALUES (?, ?, NOW())";
+            $stmt_insert_assinante = mysqli_prepare($conn, $sql_insert_assinante);
+            mysqli_stmt_bind_param($stmt_insert_assinante, 'ss', $row['nome_completo'], $row['email']);
+            mysqli_stmt_execute($stmt_insert_assinante);
             // Remove a admissão da tabela admissoes
             $sql_delete = "DELETE FROM admissoes WHERE id = ?";
             $stmt_delete = mysqli_prepare($conn, $sql_delete);
