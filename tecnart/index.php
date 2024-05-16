@@ -99,78 +99,54 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
       <div class="container">
          <div class="heading_container2 heading_center2">
-
-            <h3>
-               <?= change_lang("rd-projects-heading"); ?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+            <h3 style="font-family: Merriweather Sans Light; font-size:32px; color:#002169;">
+               <?= change_lang("rd-projects-heading"); ?>
             </h3>
-
-            <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="projetos_em_curso.php">
-               <?= change_lang("see-all-btn-rd-projects"); ?>
-            </a>
-
          </div>
          <div class="row">
             <?php
             $sql = "SELECT id,
                      COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,
                      COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao,
-                     fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 4";
+                     fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 3";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($projetos as $row) {
             ?>
                <div class="col">
-                  <div style="padding-top: 40px">
+                  <div style="position: relative; padding-top: 40px;">
                      <div class="img-box">
                         <a href="projeto.php?projeto=<?= $row["id"]; ?>">
-                           <img style="object-fit: cover; width:230px; height:230px;" src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
+                           <img style="object-fit: cover; width:330px; height:230px;" src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
+                           <div style="position: absolute; bottom: 0; left: 0; padding: 5px;">
+                              <span style="color: white; font-weight: bold; font-size: larger; padding: 5px;">
+                                 <?= $row["nome"]; ?>
+                              </span>
+                           </div>
                         </a>
-                     </div>
-                  </div>
-                  <div class="detail-box">
-                     <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <a href="projeto.php?projeto=<?= $row["id"]; ?>" style="color:#333F50;">
-                           <h5>
-                              <?= $row["nome"]; ?>
-                           </h5>
-                        </a>
-                     </div>
-                     <div style="padding-left: 30px; text-align: center; width:210px;">
-                        <h6>
-                           <?=
-                           strlen($row["descricao"]) > 145 ?
-                              preg_split("/\s+(?=\S*+$)/", substr($row["descricao"], 0, 150))[0] . "..."
-                              : $row["descricao"];
-                           ?>
-                        </h6>
                      </div>
                   </div>
                </div>
             <?php
             }
-
             ?>
-
-
-
-
+         </div>
+         <div class="text-center" style="padding-top: 40px;">
+            <a style="display: inline-block; padding: 5px 25px; background-color:#002169; color: #ffffff; border-radius: 0; 
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', Merriweather Sans Ligh;  font-size: 20px; font-weight: bold;" href="projetos_em_curso.php">
+               <?= change_lang("see-all-btn-latest-news") ?>
+            </a>
          </div>
       </div>
    </div>
 </section>
-<!-- end product section -->
-
-<!-- client section -->
 
 <section class="section-margin calc-60px">
    <div style="padding-bottom: 50px;">
       <div class="container">
          <div class="section-intro pb-60px">
-            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">
+            <h2 style="font-family: Merriweather Sans Light; font-size:32px; padding-bottom: 20px; padding-left: 0px; color: #002169">
                <?= change_lang("latest-news-heading") ?>
             </h2>
          </div>
@@ -192,10 +168,10 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="width: 300px;height: 300px; overflow: hidden; z-index: 1;" class="image_default">
+                        <div style="width: 330px;height: 230px; overflow: hidden; z-index: 1;" class="image_default">
                            <img style="width: 100%; height: 100%; object-fit: cover;"  src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
-                              <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
+                              <h5 style="font-family: Merriweather Sans Light; font-size: 21px; text-transform: uppercase; font-weight: 600;">
                                  <?php
                                  //Limitar o título a 35 caracteres e cortar pelo último espaço
                                  $titulo = trim($noticia['titulo']);
@@ -205,7 +181,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                                  echo ($titulo !=  trim($noticia['titulo'])) ? $titulo . "..." : $titulo;
                                  ?>
                               </h5>
-                              <h6 style="font-size: 14px; font-weight: 100;">
+                              <h6 style="font-family: Merriweather Sans Light; font-size: 14px; font-weight: 100;">
                                  <?php
                                  //Adicionar espaços antes das etiquetas html,
                                  $espacos = str_replace('<', ' <', $noticia['conteudo']);
@@ -224,15 +200,14 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                            </div>
                         </div>
                      </a>
-
                   </div>
                </div>
             <?php endforeach; ?>
          </div>
 
          <div class="text-center">
-            <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="noticias.php">
+            <a style="display: inline-block; padding: 5px 25px; background-color:#002169; color: #ffffff; border-radius: 0; 
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', Merriweather Sans Ligh;  font-size: 20px; font-weight: bold;" href="noticias.php">
                <?= change_lang("see-all-btn-latest-news") ?>
             </a>
          </div>
