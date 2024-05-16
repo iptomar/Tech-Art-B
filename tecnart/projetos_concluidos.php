@@ -55,11 +55,11 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="container">
          <div class="heading_container3">
 
-            <h3 style="margin-bottom: 5px;">
+            <h3 style="margin-bottom: 5px; color: #002169">
                <?= change_lang("projects-finished-page-heading") ?>
             </h3>
 
-            <h5 class="heading2_h5">
+            <h5 class="heading2_h5 color: #002169">
                <?= change_lang("projects-finished-page-description") ?>
             </h5>
 
@@ -76,7 +76,7 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Pesquisar por nome" name="search">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Pesquisar</button>
+                <button class="btn btn-outline-secondary" type="submit" style="color: #002169">Pesquisar</button>
             </div>
         </div>
     </form>
@@ -92,7 +92,7 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="ml-5 imgList">
                         <a href="projeto.php?projeto=' . $projeto['id'] . '">
                             <div class="image_default">
-                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/projetos/' . $projeto['fotografia'] . '" alt="">
+                                <img class="centrare" style="object-fit: cover; width:300px; height:200px;" src="../backoffice/assets/projetos/' . $projeto['fotografia'] . '" alt="">
                                 <div class="imgText justify-content-center m-auto">' . $projeto['nome'] . '</div>
                             </div>
                         </a>
@@ -113,19 +113,19 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <ul class="pagination justify-content-center">
             <!-- Botão da seta esquerda -->
             <li class="page-item">
-                <a class="page-link" href="?pagina=<?= max(1, $pagina_atual - 1) ?>" aria-label="Previous">
+                <a style="color: #002169" class="page-link" href="?pagina=<?= max(1, $pagina_atual - 1) ?>" aria-label="Previous">
                     <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
             <?php for ($i = 1; $i <= $total_paginas; $i++) : ?>
                 <li class="page-item <?= $i == $pagina_atual ? 'active' : '' ?>">
-                    <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                    <a style="color: #002169" class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
                 </li>
             <?php endfor; ?>
             <!-- Botão da seta direita -->
             <li class="page-item">
-                <a class="page-link" href="?pagina=<?= min($total_paginas, $pagina_atual + 1) ?>" aria-label="Next">
+                <a style="color: #002169" class="page-link" href="?pagina=<?= min($total_paginas, $pagina_atual + 1) ?>" aria-label="Next">
                     <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
                     <span class="sr-only">Next</span>
                 </a>

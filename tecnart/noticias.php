@@ -52,10 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
       <div class="container">
          <div class="heading_container3">
-            <h3 style="margin-bottom: 5px;">
+            <h3 style="margin-bottom: 5px; color: #002169">
                <?= change_lang("news-page-heading") ?>
             </h3>
-            <h5 class="heading2_h5">
+            <h5 class="heading2_h5 color:#002169">
                <?= change_lang("news-page-heading-desc") ?>
             </h5>
 
@@ -72,9 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php foreach ($noticias as $noticia) : ?>
                <div class="ml-5 imgList">
                   <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                     <div class="image_default" style="width: 300px; height: 300px; overflow: hidden;">
+                     <div class="image_default" style="width: 330px; height: 230px; overflow: hidden;">
                            <img class="centrare" style="width: 100%; height: 100%; object-fit: cover;" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
-                        <div class="imgText justify-content-center m-auto" style="top:75%">
+                        <div class="imgText m-auto" style="top:75%">
                            <?php
                            $titulo = trim($noticia['titulo']);
                            if (strlen($noticia['titulo']) > 35) {
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                            echo ($titulo !=  trim($noticia['titulo'])) ? $titulo . "..." : $titulo;
                            ?>
                         </div>
-                        <h6 class="imgText m-auto" style="font-size: 11px; font-weight: 100; top:95%"><?= date("d.m.Y", strtotime($noticia['data'])) ?></h6>
+                        <h6 class="imgText m-auto" style="font-size: 11px; font-weight: 100; top:95%; text-align: center;"><?= date("d.m.Y", strtotime($noticia['data'])) ?></h6>
                      </div>
                   </a>
                </div>
@@ -96,6 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    </div>
 </section>
+
+
 <section class="newsletter_section layout_padding">
    <div style="background-color: #f9f9f9; padding-top: 50px; padding-bottom: 50px;">
       <div class="container">
@@ -105,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <form action="noticias.php" method="post">
                   <div class="form-group d-flex">
                      <input type="email" class="form-control mr-2" id="email" name="email" placeholder="Insira o seu e-mail" style="border: 2px solid #000000;" required>
-                     <button type="submit" style="height:37px;background-color: #333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; transition: all 0.3s; font-family:'Quicksand', sans-serif; font-size: 20px;">Confirmar</button>
+                     <button type="submit" style="height:37px;background-color: #002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; transition: all 0.3s; font-family: Merriweather Sans Light; font-size: 20px;">Confirmar</button>
                   </div>
                </form>
             </div>
