@@ -6,7 +6,6 @@ use PHPMailer\PHPMailer\Exception;
 require '../PHPMailer/src/Exception.php';
 require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
-
 require "../config/basedados.php"; // Conexão com o banco de dados
 
 // Instanciar a classe PHPMailer
@@ -32,7 +31,7 @@ try {
     $assinantesResult = mysqli_query($conn, $assinantesQuery);
 
     // Coletar as 5 últimas notícias
-    $noticiasQuery = "SELECT titulo, conteudo,imagem, data FROM noticias ORDER BY data DESC LIMIT 5";
+    $noticiasQuery = "SELECT titulo, conteudo, imagem, data FROM noticias ORDER BY data DESC LIMIT 5";
     $noticiasResult = mysqli_query($conn, $noticiasQuery);
 
     // Construir o corpo do email com as notícias
@@ -53,13 +52,20 @@ try {
         $mail->Subject = 'Notícias TechnArt';
         $mail->Body    = $emailBody;
         $mail->AltBody = 'Para visualizar este email, use um cliente de email que suporte HTML.';
-        $mail->send();
+        
+        // Tentativa de envio dos emails
+        if ($mail->send()) {
+            echo 'E-mail enviado com sucesso para ' . $assinante['email'] . '!<br>';
+        } else {
+            echo 'Erro ao enviar o e-mail para ' . $assinante['email'] . ': ' . $mail->ErrorInfo . '<br>';
+        }
+        
         $mail->clearAddresses(); // Limpa os destinatários para o próximo loop
     }
 
-    echo 'E-mail enviado com sucesso para todos os assinantes!';
+    echo 'Todos os e-mails foram enviados com sucesso!';
+    header("Location : ");
 } catch (Exception $e) {
     echo "Erro ao enviar o e-mail: {$mail->ErrorInfo}";
 }
-
 ?>
