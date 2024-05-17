@@ -9,9 +9,17 @@ include 'models/functions.php';
     <div style='padding-top: 50px; padding-bottom: 30px;'>
         <div class='container'>
             <div class='heading_container3'>
-                <h3 class="heading_h3" style="text-transform: uppercase;">
+                <h3 class="heading_h3" style="text-transform: uppercase; color: #002169; font-family: Merriweather Sans Bold;">
                     <?= change_lang("publications-page-heading") ?>
                 </h3><br><br>
+
+                <!-- Formulário para filtrar por ano -->
+                <form action="" method="get">
+                    <label style=" font-family: Merriweather Sans Light;font-size:21px;"for="year">Pesquise o ano</label>
+                    <input style=" font-family: Merriweather Sans Light;font-size:21px;"type="text" name="year" id="year" placeholder="Insira o ano..." value="<?= isset($_GET['year']) ? $_GET['year'] : '' ?>">
+                    <button style=" font-family: Merriweather Sans Light; font-size:21px;background-color: #002169; color: #ffffff; border: 2px solid #002169" type="submit">Pesquisar</button>
+                </form>
+
                 <?php
                 $pdo = pdo_connect_mysql();
                 if (!isset($_SESSION["lang"])) {
@@ -20,11 +28,21 @@ include 'models/functions.php';
                     $lang = $_SESSION["lang"];
                 }
                 $valorSiteName = "valor_site_$lang";
+                $year = isset($_GET['year']) ? $_GET['year'] : '';
                 $query = "SELECT dados, YEAR(data) AS publication_year, p.tipo, pt.$valorSiteName FROM publicacoes p
                                 LEFT JOIN publicacoes_tipos pt ON p.tipo = pt.valor_API
-                                WHERE visivel = true
-                                ORDER BY publication_year DESC, pt.$valorSiteName, data DESC";
+                                WHERE visivel = true";
+                
+                // Se um ano foi especificado, adiciona ao filtro
+                if (!empty($year) && is_numeric($year)) {
+                    $query .= " AND YEAR(data) = :year";
+                }
+                
+                $query .= " ORDER BY publication_year DESC, pt.$valorSiteName, data DESC";
                 $stmt = $pdo->prepare($query);
+                if (!empty($year) && is_numeric($year)) {
+                    $stmt->bindParam(':year', $year, PDO::PARAM_INT);
+                }
                 $stmt->execute();
                 $publicacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
