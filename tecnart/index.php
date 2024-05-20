@@ -11,7 +11,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 <?= template_header('TECHN&ART'); ?>
 <!-- slider section -->
 <section class="home-slider owl-carousel">
-   <div class="slider-item" style="background-image:url('./assets/images/slider-index-1.jpg');">
+   <div class="slider-item" style="background-image:url('../backoffice/imagens/uploads/Imagem1.jpg');">
       <div class="overlay"></div>
       <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">
@@ -31,7 +31,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    </div>
    </div>
 
-   <div class="slider-item" style="background-image:url('./assets/images/slider-index-2.jpg');">
+   <div class="slider-item" style="background-image:url('../backoffice/imagens/uploads/Imagem2.jpg');">
       <div class="overlay"></div>
 
       <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
@@ -52,7 +52,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    </div>
    </div>
 
-   <div class="slider-item" style="background-image:url('./assets/images/slider-index-3.jpg');">
+   <div class="slider-item" style="background-image:url('../backoffice/imagens/uploads/Imagem2.jpg');">
       <div class="overlay"></div>
       <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">

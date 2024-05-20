@@ -61,7 +61,7 @@
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
         echo "<li class='navLi'><a href='../admissoes'>Admissões</a></li>";
-        echo "<li class='navLi'><a href='../imagens'>Imagens</a></li>";
+        echo "<li class='navLi'><a href='../imagens/index.php'>Imagens</a></li>";
     }
     ?>
     <li class="navLi"><a class="leftnav" href="../sair.php">Sair</a></li>
