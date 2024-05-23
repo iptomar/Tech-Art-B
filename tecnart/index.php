@@ -52,7 +52,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    </div>
    </div>
 
-   <div class="slider-item" style="background-image:url('../backoffice/imagens/uploads/Imagem2.jpg');">
+   <div class="slider-item" style="background-image:url('../backoffice/imagens/uploads/Imagem3.jpg');">
       <div class="overlay"></div>
       <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">
