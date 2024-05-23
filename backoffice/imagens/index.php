@@ -59,7 +59,6 @@ $result = mysqli_query($conn, $sql);
                             echo "<td><img src='" . $row["imagem"] . "' width='100px' height='100px'></td>";
                             if ($_SESSION["autenticado"] == "administrador") {
                                 echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-                                echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
                             }
                             echo "</tr>";
                         }
