@@ -279,8 +279,11 @@ $change_lang =  function ($key) {
                                     <br><ul><li><a style="color: white;"><strong>{$change_lang("follow-us-txt")}</strong></a></li></ul>
                                 </div>
                                 <div class="widget_menu">
-                                    <span><a target="_blank"href="https://www.facebook.com/Techn.Art.IPT/"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
-                                    <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><i class="fab fa-youtube"></i></a></span>
+                                    <span><a target="_blank"href="https://www.facebook.com/Techn.Art.IPT/"><img src="../tecnart/assets/icons/facebook.svg" alt="facebook" style="width: 30px; height: 30px;"/></i>&nbsp</a></span>
+                                    <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><img src="../tecnart/assets/icons/youtube.svg" alt="youtube" style="width: 40px; height: 40px;"/>
+
+
+                                    </i></a></span>
                                 </div>
                             </div> 
 
