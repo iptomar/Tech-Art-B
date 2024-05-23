@@ -944,9 +944,8 @@ mysqli_close($conn);
 
             <div style="text-align: center;">
             <input type="text" class="form-control" id="searchInput" placeholder="Pesquisar Publicação" style="width: 300px; height: 40px; display: inline-block;">
-            <button type="submit" id="button-search" style="display: inline-block;">Pesquisar</button>
             </div>
-            
+
             <form method="post">
                 <div class="mb-3" id="publicacoes">
                 </div>
@@ -1106,9 +1105,5 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
 // Ouve eventos de entrada para atualizar dinamicamente os resultados da pesquisa
 document.getElementById('searchInput').addEventListener('input', filterPublications);
 
-// Adiciona um ouvinte de evento ao botão de pesquisa
-document.getElementById('button-search').addEventListener('click', function(event) {
-    event.preventDefault(); // Impede a ação padrão do botão
-    filterPublications(); // Chama a função de filtragem
-});
+
 </script>
