@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require '../PHPMailer/src/Exception.php';
 require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
-require "../config/basedados.php"; // Conexão com o banco de dados
+require "../config/basedados.php"; 
 
 // Instanciar a classe PHPMailer
 $mail = new PHPMailer(true);
@@ -60,7 +60,7 @@ try {
             echo 'Erro ao enviar o e-mail para ' . $assinante['email'] . ': ' . $mail->ErrorInfo . '<br>';
         }
         
-        $mail->clearAddresses(); // Limpa os destinatários para o próximo loop
+        $mail->clearAddresses(); 
     }
 
     echo 'Todos os e-mails foram enviados com sucesso!';
