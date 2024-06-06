@@ -41,11 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["imagem"]) && $_FILES[
     if ($response && $response['success']) {
         $imageUrl = $response['data']['link'];
 
-        // Mover o arquivo para o diretório local (opcional)
-        $mainDir = "../assets/noticias/";
-        $target_file = uniqid() . '_' . $_FILES["imagem"]["name"];
-        move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $target_file);
-
         // Inserir a notícia no banco de dados com a URL da imagem do Imgur
         $sql = "INSERT INTO noticias (titulo, titulo_en, conteudo, conteudo_en, imagem, data, ultimo_editor) " .
             "VALUES (?,?,?,?,?,?,?)";
