@@ -17,9 +17,10 @@ try {
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'tecnartadm@gmail.com';
-    $mail->Password   = ''; // Adicione a senha correta aqui
+    $mail->Password   = '';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
+
 
     // Configuração do remetente
     $mail->setFrom('tecnartadm@gmail.com', 'TechnArt IPT');
@@ -30,7 +31,7 @@ try {
     $assinantesResult = mysqli_query($conn, $assinantesQuery);
 
     // Coletar as 5 últimas notícias
-    $noticiasQuery = "SELECT titulo, conteudo, data FROM noticias ORDER BY data DESC LIMIT 5";
+    $noticiasQuery = "SELECT titulo, conteudo, imagem, data FROM noticias ORDER BY data DESC LIMIT 5";
     $noticiasResult = mysqli_query($conn, $noticiasQuery);
 
     // Construir o corpo do email com as notícias
@@ -39,13 +40,14 @@ try {
         $emailBody .= '<h2>' . $row['titulo'] . '</h2>';
         $emailBody .= '<p>' . $row['conteudo'] . '</p>';
         $emailBody .= '<p>Data: ' . $row['data'] . '</p>';
+        $emailBody .= '<img src="' . $row['imagem'] . '" width=100px height=100px />';
         $emailBody .= '<hr>';
     }
 
     // Enviar email para cada assinante
     while ($assinante = mysqli_fetch_assoc($assinantesResult)) {
         $mail->CharSet = 'UTF-8';
-        $mail->addAddress($assinante['email'], $assinante['nome']);
+        $mail->addAddress($assinante['email'], '');
         $mail->isHTML(true);
         $mail->Subject = 'Notícias TechnArt';
         $mail->Body    = $emailBody;
@@ -62,6 +64,7 @@ try {
     }
 
     echo 'Todos os e-mails foram enviados com sucesso!';
+    header("Location : ");
 } catch (Exception $e) {
     echo "Erro ao enviar o e-mail: {$mail->ErrorInfo}";
 }
