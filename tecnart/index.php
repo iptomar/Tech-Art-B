@@ -19,12 +19,28 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                <h1 class="mb-4">
                   <?= change_lang("index-first-slide"); ?>
                </h1>
-               <span class="subheading">
+               <span class="subheading" style="margin-bottom 10px;">
                   <?= change_lang("index-first-slide-desc"); ?>
                </span>
-               <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
-                     <?= change_lang("know-more-btn-txt-slider") ?>
-                  </a></div>
+               <div>  <a
+        href="sobre.php"
+        style="
+        margin-top: 20px;
+            background-color: white;
+            border: 2px solid #000;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;"
+        onmouseover="this.style.backgroundColor='#f0f0f0'"
+        onmouseout="this.style.backgroundColor='white'"
+    >
+        <?= change_lang("know-more-btn-txt-slider") ?>
+    </a></div>
             </div>
          </div>
       </div>
@@ -40,10 +56,22 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                <h1 class="mb-4">
                   <?= change_lang("index-second-slide"); ?>
                </h1>
-               <span class="subheading">
+               <span class="subheading" style="margin-bottom 10px;">
                   <?= change_lang("index-second-slide-desc"); ?>
                </span>
-               <div><a href="integrados.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+               <div><a href="integrados.php"
+                style="
+                margin-top: 20px;
+            background-color: white;
+            border: 2px solid #000;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;">
                      <?= change_lang("know-more-btn-txt-slider") ?>
                   </a></div>
             </div>
@@ -60,10 +88,24 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                <h1 class="mb-4">
                   <?= change_lang("index-third-slide-slider"); ?>
                </h1>
-               <span class="subheading">
+               <span class="subheading" style="margin-bottom 10px;">
                   <?= change_lang("index-third-slide-slider-desc"); ?>
                </span>
-               <div><a href="projetos_em_curso.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+               <div><a href="projetos_em_curso.php" 
+               style="
+               margin-top: 20px;
+            background-color: white;
+            border: 2px solid #000;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;"
+        onmouseover="this.style.backgroundColor='#f0f0f0'"
+        onmouseout="this.style.backgroundColor='white'">
                      <?= change_lang("know-more-btn-txt-slider") ?>
                   </a></div>
             </div>

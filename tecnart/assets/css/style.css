@@ -2032,7 +2032,11 @@ form input[type="submit"]:focus {
     word-break: break-word;
 }
 
-
+.vamosvernoqueda{
+  margin-top: 10px;
+  background-color: white;
+  color: black;
+}
 
 
 
