@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;700&display=swap');
+
 
 * {
   box-sizing: border-box;
@@ -11,7 +13,7 @@ body {
 }
 
 header {
-  background-color: #333F50;
+  background-color: #002169;
 }
 
 .layout_padding {
@@ -76,13 +78,13 @@ h2 {
     display: block;
     width: 70px;
     height: 5px;
-    background: #f7444e;
+    background: #0075c9;
     margin: 10px auto 10px;
     
 }
 
 .heading_container h2 span {
-  color: #f7444e;
+  color: #0075c9;
 }
 
 .heading_container p {
@@ -308,13 +310,13 @@ a:focus {
     font-size: 4.5rem;
     font-weight: bold;
     margin-bottom: 15px;
-    color: #002c3e;
+    color: #002169;
     line-height: 70px;
     
 }
 
 .slider_section .detail-box h1 span {
-  color: #f7444e;
+  color: #000033;
 }
 
 .slider_section .detail-box p {
@@ -326,8 +328,8 @@ a:focus {
 .slider_section .detail-box a {
     display: inline-block;
     padding: 12px 45px;
-    background-color: #f7444e;
-    border: 1px solid #f7444e;
+    background-color: #000033;
+    border: 1px solid #000033;
     color: #ffffff;
     border-radius: 0;
     -webkit-transition: all 0.3s;
@@ -338,7 +340,7 @@ a:focus {
 
 .slider_section .detail-box a:hover {
   background-color: transparent;
-  color: #f7444e;
+  color: #000033;
 }
 
 .slider_section .img-box img {
@@ -368,7 +370,7 @@ a:focus {
 .slider_section .carousel-indicators li.active {
   width: 20px;
   height: 20px;
-  background-color: #f7444e;
+  background-color: #0075c9;
 }
 
 
@@ -445,7 +447,7 @@ a:focus {
 
 .product_section .box .detail-box h6 {
   margin-top: 10px;
-  color: #002c3e;
+  color: #002169;
   font-weight: 600;
 }
 
@@ -461,7 +463,7 @@ a:focus {
           transform: translateY(0);
 }
 .arrival_section {
-    background-color: #d4ced0;
+    background-color: #dbdee1;
 }
 .product_section .option_container {
   position: absolute;
@@ -513,25 +515,25 @@ a:focus {
 }
 
 .product_section .options .option1 {
-  background-color: #f7444e;
-  border: 1px solid #f7444e;
+  background-color: #0075c9;
+  border: 1px solid #0075c9;
   color: #ffffff;
 }
 
 .product_section .options .option1:hover {
   background-color: transparent;
-  color: #f7444e;
+  color: #0075c9;
 }
 
 .product_section .options .option2 {
-  background-color: #000000;
-  border: 1px solid #000000;
+  background-color: #000031;
+  border: 1px solid #000031;
   color: #ffffff;
 }
 
 .product_section .options .option2:hover {
   background-color: transparent;
-  color: #000000;
+  color: #000031;
 }
 
 .product_section .btn-box {
@@ -547,8 +549,8 @@ a:focus {
 .product_section .btn-box a {
   display: inline-block;
   padding: 10px 40px;
-  background-color: #f7444e;
-  border: 1px solid #f7444e;
+  background-color: #0075c9;
+  border: 1px solid #0075c9;
   color: #ffffff;
   border-radius: 0;
   -webkit-transition: all 0.3s;
@@ -557,11 +559,11 @@ a:focus {
 
 .product_section .btn-box a:hover {
   background-color: transparent;
-  color: #f7444e;
+  color: #0075c9;
 }
 
 .arrival_section .heading_container {
-  color: #002c3e;
+  color: #002169;
   margin-bottom: 10px;
   
 }
@@ -592,8 +594,8 @@ a:focus {
 .arrival_section a {
   display: inline-block;
   padding: 10px 45px;
-  background-color: #f7444e;
-  border: 1px solid #f7444e;
+  background-color: #0075c9;
+  border: 1px solid #0075c9;
   color: #ffffff;
   border-radius: 0;
   -webkit-transition: all 0.3s;
@@ -602,13 +604,13 @@ a:focus {
 
 .arrival_section a:hover {
   background-color: transparent;
-  color: #f7444e;
+  color: #0075c9;
 }
 
 .why_section .box {
     text-align: center;
     margin-top: 45px;
-    background-color: #002c3e;
+    background-color: #002169;
     padding: 45px 50px;
     border-radius: 5px;
     color: #ffffff;
@@ -638,7 +640,7 @@ a:focus {
 }
 
 .subscribe_section .box {
-  background-color: #d4ced0;
+  background-color: #dbdee1;
   padding: 75px 45px;
 }
 
@@ -646,7 +648,7 @@ a:focus {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  color: #002c3e;
+  color: #002169;
   
   
 }
@@ -700,8 +702,8 @@ a:focus {
 .subscribe_section .subscribe_form form button {
   display: inline-block;
   padding: 10px 45px;
-  background-color: #f7444e;
-  border: 1px solid #f7444e;
+  background-color: #000033;
+  border: 1px solid #000033;
   color: #ffffff;
   border-radius: 35px;
   -webkit-transition: all 0.3s;
@@ -715,7 +717,7 @@ a:focus {
 
 .subscribe_section .subscribe_form form button:hover {
   background-color: transparent;
-  color: #f7444e;
+  color: #000033;
 }
 
 .client_section .box {
@@ -812,7 +814,7 @@ a:focus {
   height: 50px;
   opacity: 1;
   color: #ffffff;
-  background-color: #f7444e;
+  background-color: #000033;
   border-radius: 100%;
 }
 
@@ -829,9 +831,9 @@ a:focus {
   right: 25%;
 }
 
-/* footer section*/
+/* footer section */
 .footer_section {
-  background-color: #002c3e;
+  background-color: #000033; /* Azul mais escuro como cor principal */
   color: #ffffff;
   padding-top: 70px;
 }
@@ -851,6 +853,7 @@ a:focus {
   margin-bottom: 20px;
   font-family: 'Playfair Display', serif;
   text-align: left;
+  position: relative;
 }
 
 .footer_section .footer-col {
@@ -877,7 +880,7 @@ a:focus {
 }
 
 .footer_section .footer_contact .contact_link_box a:hover {
-  color: #f7444e;
+  color: #0075c9; /* Azul claro para hover */
 }
 
 .footer_section .footer-logo {
@@ -908,7 +911,7 @@ a:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  color: #002c3e;
+  color: #002169; /* Azul mais claro */
   width: 30px;
   height: 30px;
   border-radius: 100%;
@@ -919,7 +922,7 @@ a:focus {
 }
 
 .footer_section .footer_social a:hover {
-  color: #f7444e;
+  color: #0075c9; /* Azul claro para hover */
 }
 
 .footer_section .map_container {
@@ -983,14 +986,14 @@ a:focus {
   display: inline-block;
   font-family: 'Merriweather Sans', sans-serif !important; 
   font-size: 33px;  
-  color:#333f50; 
+  color:#002169; 
 
 }
 
 .heading_h3{
   font-family: 'Merriweather Sans', sans-serif !important; 
   font-size: 33px;  
-  color:#333f50; 
+  color:#002169; 
 }
 
 .heading2_h5 {
@@ -1048,7 +1051,7 @@ li.nav-item ul li a {
 }
 
 .inner_page_head {
-    background: #f7444e;
+    background: #000033;
     text-align: center;
     color: #fff;
     padding-top: 50px;
@@ -1064,7 +1067,7 @@ li.nav-item ul li a {
 
 /*O FOOTER ESTA MAIS FINO -------------*/
 footer {
-    background: #333F50;
+    background: #002169;
     padding: 10px 0 10px;
 }
 
@@ -1138,7 +1141,7 @@ div.form_sub .field input[type="email"], div.form_sub .field input[type="email"]
 .form_sub input[type="email"] + input[type="submit"] {
     position: absolute;
     right: 0;
-    background: #f7444e;
+    background: #000033;
     color: #fff;
     border: none;
     top: 0px;
@@ -1188,30 +1191,32 @@ form input[type="submit"] {
 
 form input[type="submit"]:hover,
 form input[type="submit"]:focus {
-    background: #f7444e;
+    background: #000033;
     color: #fff;
 }
 
 /** cpy **/
 
+/* Subfooter section */
 .cpy_ {
-    background: #333F50;
-    text-align: center;
-    
+  background-color: #000033; /* Azul principal para a seção inferior */
+  text-align: center;
+  padding: 10px 0;
 }
 
 .cpy_ p {
-    margin: 0;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 400;
+  margin: 0;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .cpy_ p a {
-    margin: 0;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 400;
+  margin: 0;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  color: inherit;
 }
 
 .owl-carousel {
@@ -1524,15 +1529,15 @@ form input[type="submit"]:focus {
           .btn {
             display: inline-block;
             font-weight: 400;
-            color: #212529;
+            color: #ffffff;
             text-align: center;
             vertical-align: middle;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            background-color: transparent;
-            border: 1px solid transparent;
+            background-color: #002169;
+            border: 1px solid #002169;
             padding: 0.375rem 0.75rem;
             font-size: 1rem;
             line-height: 1.5;
@@ -1676,7 +1681,7 @@ form input[type="submit"]:focus {
                             font-size:13px;
                           }
                           
-                          .dropdown-content a:hover {background-color: #333F50; color:#ffffff;}
+                          .dropdown-content a:hover {background-color: #002169; color:#ffffff;}
                           
                           .dropdown:hover .dropdown-content {
                             display: block;
@@ -1684,7 +1689,7 @@ form input[type="submit"]:focus {
                          
 
                           #nav_drop:hover {
-                            color: #333F50;
+                            color: #002169;
                             background-color: #ffffff;
                           }
 
@@ -1877,7 +1882,7 @@ form input[type="submit"]:focus {
                           
                           .cormuda:hover{
                               color: #ffffff;
-                              background-color: #333f50;
+                              background-color: #002169;
                           }
 
                           .nofinal {
@@ -1941,13 +1946,13 @@ form input[type="submit"]:focus {
                             height: 40px;
                             display: table-cell;
                             vertical-align: middle;
-                            border-color: #333f50;
+                            border-color: #002169;
                             padding: 0px 0px 0px;
                           }
 
                           .divbotao:hover{
                             color: #ffffff;
-                            background-color: #333f50;
+                            background-color: #002169;
                           }
 
                           .innerButton{
@@ -1978,7 +1983,7 @@ form input[type="submit"]:focus {
                             width: 30%;
                             font-family: 'Merriweather Sans', sans-serif;
                             font-size: 24px; 
-                            color:#333f50; 
+                            color:#002169; 
                             text-align: right; 
                             padding-right: 25px;
                           }
@@ -2032,7 +2037,11 @@ form input[type="submit"]:focus {
     word-break: break-word;
 }
 
-
+.vamosvernoqueda{
+  margin-top: 10px;
+  background-color: white;
+  color: black;
+}
 
 
 
