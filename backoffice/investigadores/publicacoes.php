@@ -868,7 +868,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $sql = "SELECT p.idPublicacao, p.dados, p.visivel, p.tipo, p.data
         FROM publicacoes p
         INNER JOIN publicacoes_investigadores pi ON p.idPublicacao = pi.publicacao
-        WHERE pi.investigador = ? ORDER BY p.tipo ASC, p.data DESC";
+        WHERE pi.investigador = ?";
+
+// Verificar se o formulário de pesquisa foi submetido
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['searchQuery'])) {
+    // Adicionar a cláusula WHERE à consulta SQL para filtrar publicações com base na pesquisa
+    $searchQuery = "%" . $_POST['searchQuery'] . "%";
+    $sql .= " AND p.dados LIKE ?";
+    mysqli_stmt_bind_param($stmt, "is", $id, $searchQuery);
+}
+
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -880,6 +889,7 @@ $publicacoesInfo = mysqli_fetch_all($result, MYSQLI_ASSOC);
 // Fechar a conexão com o banco de dados
 mysqli_stmt_close($stmt);
 mysqli_close($conn);
+
 ?>
 
 
@@ -909,6 +919,7 @@ mysqli_close($conn);
         color: red;
     }
 
+
     textarea {
         min-height: 100px;
     }
@@ -931,10 +942,18 @@ mysqli_close($conn);
                 <button type="submit" name="updateData" class="btn btn-warning btn-block">Atualizar Dados</button>
             </form>
 
+            <div style="text-align: center;">
+            <input type="text" class="form-control" id="searchInput" placeholder="Pesquisar Publicação" style="width: 300px; height: 40px; display: inline-block;">
+            </div>
+
             <form method="post">
                 <div class="mb-3" id="publicacoes">
-
                 </div>
+                <form id="searchForm" class="mb-3">
+                        <div class="form-group">
+                        </div>
+                 </form>
+
 
                 <div class="form-group">
                     <button type="submit" name="saveChanges" class="btn btn-primary btn-block">Gravar</button>
@@ -1053,4 +1072,38 @@ mysqli_close($conn);
 
         checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
     });
+
+  
+    $(document).ready(function() {
+    // Filtragem feita de acordo com cada letra escrita
+    $('#searchInput').on('input', function() {
+        filterPublications($(this).val().toLowerCase());
+    });
+
+    // Função para filtrar as publicações com base no título
+    function filterPublications(input) {
+    $('.form-check').each(function() {
+        var publicationTitle = $(this).text().toLowerCase(); // Obtém o texto da publicação
+        // Verifica se o texto da publicação contém o texto de entrada
+        if (publicationTitle.includes(input)) {
+            $(this).show(); // Exibe a publicação se corresponder
+        } else {
+            $(this).hide(); // Oculta a publicação se não corresponder
+        }
+    });
+}
+
+
+});
+
+
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Impede o envio do formulário
+    filterPublications(); // Chama a função de filtragem
+});
+
+// Ouve eventos de entrada para atualizar dinamicamente os resultados da pesquisa
+document.getElementById('searchInput').addEventListener('input', filterPublications);
+
+
 </script>
