@@ -853,6 +853,7 @@ a:focus {
   margin-bottom: 20px;
   font-family: 'Playfair Display', serif;
   text-align: left;
+  position: relative;
 }
 
 .footer_section .footer-col {
@@ -879,7 +880,7 @@ a:focus {
 }
 
 .footer_section .footer_contact .contact_link_box a:hover {
-  color: #f7444e;
+  color: #0075c9; /* Azul claro para hover */
 }
 
 .footer_section .footer-logo {
