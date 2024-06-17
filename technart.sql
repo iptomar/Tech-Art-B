@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2023 at 11:52 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 5.6.40
+-- Tempo de geração: 17-Jun-2024 às 08:27
+-- Versão do servidor: 10.4.32-MariaDB
+-- versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,15 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `technart`
+-- Banco de dados: `technart`
 --
-CREATE DATABASE IF NOT EXISTS `technart`;
-USE `technart`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `administradores`
+-- Estrutura da tabela `administradores`
 --
 
 CREATE TABLE `administradores` (
@@ -35,10 +32,10 @@ CREATE TABLE `administradores` (
   `nome` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `administradores`
+-- Extraindo dados da tabela `administradores`
 --
 
 INSERT INTO `administradores` (`id`, `nome`, `email`, `password`) VALUES
@@ -49,7 +46,7 @@ INSERT INTO `administradores` (`id`, `nome`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admissoes`
+-- Estrutura da tabela `admissoes`
 --
 
 CREATE TABLE `admissoes` (
@@ -67,26 +64,86 @@ CREATE TABLE `admissoes` (
   `instituicao_vinculo` varchar(255) NOT NULL,
   `percentagem_dedicacao` varchar(255) NOT NULL,
   `pertencer_outro` tinyint(1) NOT NULL,
-  `outro_texto` text,
+  `outro_texto` text DEFAULT NULL,
   `biografia` text NOT NULL,
   `ficheiro_motivacao` varchar(255) NOT NULL,
   `ficheiro_recomendacao` varchar(255) NOT NULL,
   `ficheiro_cv` varchar(255) NOT NULL,
   `ficheiro_fotografia` varchar(255) NOT NULL,
-  `data_criacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipo` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `admissoes`
+-- Extraindo dados da tabela `admissoes`
 --
 
-INSERT INTO `admissoes` (`id`, `nome_completo`, `nome_profissional`, `ciencia_id`, `orcid`, `email`, `telefone`, `grau_academico`, `ano_conclusao_academico`, `area_academico`, `area_investigacao`, `instituicao_vinculo`, `percentagem_dedicacao`, `pertencer_outro`, `outro_texto`, `biografia`, `ficheiro_motivacao`, `ficheiro_recomendacao`, `ficheiro_cv`, `ficheiro_fotografia`, `data_criacao`) VALUES
-(13, 'BogusOITO FCCN', 'FCCN, BogusOITO', 'C715-1E14-0978', 'https://orcid.org/0000-0003-2433-0883', 'bogus_test@email.pt', '999999999', 'Grau', '2023', 'Artes', 'Ciencia', 'Instituição', 'Percentagem ', 1, '%', 'Curta biografia de investigador', 'motivacao1695803191.pdf', 'recomendacao1695803191.pdf', 'cv1695803191.pdf', 'fotografia1695803191.jpg', '2023-10-16 18:22:38');
+INSERT INTO `admissoes` (`id`, `nome_completo`, `nome_profissional`, `ciencia_id`, `orcid`, `email`, `telefone`, `grau_academico`, `ano_conclusao_academico`, `area_academico`, `area_investigacao`, `instituicao_vinculo`, `percentagem_dedicacao`, `pertencer_outro`, `outro_texto`, `biografia`, `ficheiro_motivacao`, `ficheiro_recomendacao`, `ficheiro_cv`, `ficheiro_fotografia`, `data_criacao`, `tipo`) VALUES
+(13, 'BogusOITO FCCN', 'FCCN, BogusOITO', 'C715-1E14-0978', 'https://orcid.org/0000-0003-2433-0883', 'bogus_test@email.pt', '999999999', 'Grau', '2023', 'Artes', 'Ciencia', 'Instituição', 'Percentagem ', 1, '%', 'Curta biografia de investigador', 'motivacao1695803191.pdf', 'recomendacao1695803191.pdf', 'cv1695803191.pdf', 'fotografia1695803191.jpg', '2023-10-16 18:22:38', NULL),
+(66, 'sease', 'saease', 'saease', 'aseas', 'aesease@gmail.com', '231', '3213', '123123', '21321', '21312', '2133', '21321', 0, '23', '21312', 'motivacao1715880393.py', 'recomendacao1715880393.py', 'cv1715880393.jpg', 'fotografia1715880393.jpg', '2024-05-16 17:26:33', 'Integrado'),
+(67, 'Gusatvo', 'asdas', 'daadsd', 'adsasd', 'aluno21530@ipt.pt', '12312', '1233123', '123123', '123213', '13123', '312312', '3213', 0, '21312312312', 'retertrettet', 'motivacao1715881239.jpg', 'recomendacao1715881239.jpg', 'cv1715881239.jpg', 'fotografia1715881239.jpg', '2024-05-16 17:40:39', 'Colaborador');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `investigadores`
+-- Estrutura da tabela `assinantes`
+--
+
+CREATE TABLE `assinantes` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `data_inscricao` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `assinantes`
+--
+
+INSERT INTO `assinantes` (`id`, `nome`, `email`, `data_inscricao`) VALUES
+(11, 'Joana', 'R.micaela@live.com.pt', '2024-05-09 19:27:59'),
+(12, 'Berto', 'berto_bertinho@gmail.com', '2024-05-09 19:27:59'),
+(19, 'Marta', 'marta@hotmail.com', '2024-05-09 19:27:59'),
+(20, 'Bogus Oito', 'bogusoito@cienciaid.com', '2024-05-09 19:27:59'),
+(21, 'João Mendes Moreira', 'jmm.fccn2018@gmail.com', '2024-05-09 19:27:59'),
+(22, 'João', 'joao@test.test', '2024-05-09 19:27:59'),
+(26, 'Diogo', 'aluno23030@ipt.pt', '2024-05-09 19:27:59'),
+(27, 'Gustavo', 'zuca@a.a', '2024-05-09 19:27:59'),
+(28, 'teste', 'teste@teste.a', '2024-05-09 19:27:59'),
+(43, 'Diogo Pereira', 'aluno23030@ipt.pt', '2024-05-09 19:27:59'),
+(70, 'a', 'gughsleite12@gmail.com', '2024-05-09 19:27:59'),
+(71, 'Joao Salvador', 'mongo@db.com', '2024-05-09 19:27:59'),
+(77, 'adasd', 'aluno21530@ipt.pt', '2024-05-09 19:27:59'),
+(78, 'nsacpnaskdjlskadn', 'cuzinho32@gmail.com', '2024-05-16 17:19:27'),
+(79, 'qweqweqw', 'eqwewqeqwe@gmail.com', '2024-05-16 17:23:22'),
+(80, 'Joaquim', 'joaquimrmelofilho@gmail.com', '2024-05-17 21:03:20');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `imagens_home`
+--
+
+CREATE TABLE `imagens_home` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `imagem` varchar(255) NOT NULL,
+  `uploaded_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `imagens_home`
+--
+
+INSERT INTO `imagens_home` (`id`, `titulo`, `imagem`, `uploaded_on`) VALUES
+(9, 'Imagem1', './uploads/Imagem1.jpg', '2024-06-17 07:25:45'),
+(11, 'Imagem2', './uploads/Imagem2.jpg', '2024-05-23 17:26:13'),
+(12, 'Imagem3', './uploads/Imagem3.jpg', '2024-05-20 18:26:31');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `investigadores`
 --
 
 CREATE TABLE `investigadores` (
@@ -106,58 +163,71 @@ CREATE TABLE `investigadores` (
   `scopus_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `ultimologin` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `investigadores`
+-- Extraindo dados da tabela `investigadores`
 --
 
 INSERT INTO `investigadores` (`id`, `nome`, `email`, `ciencia_id`, `sobre`, `sobre_en`, `tipo`, `fotografia`, `areasdeinteresse`, `areasdeinteresse_en`, `orcid`, `scholar`, `research_gate`, `scopus_id`, `password`, `ultimologin`) VALUES
 (11, 'Joana', 'R.micaela@live.com.pt', '0C1F-9648-2A48', 'miniin inininii ununun ininini', '', 'Integrado', 'FotoRapariga.png', 'xcvbnmuexrcfvgbhnjmkrxrcvgbhnjm', '', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', '', '', '$2y$10$2SLVhIPbYFAyoczEuL4vUeoJKE5S/um4Qy8fs1lc2tu9Yj7p9/uRm', NULL),
-(12, 'Berto', 'berto_bertinho@gmail.com', '2A13-632C-D743', 'a', '', 'Integrado', '480006581462697f48b6ff44be2ea3d141def7edr1-334-441v2_uhq.jpg', '', '', '', '', '', '', '', NULL),
+(12, 'Berto', 'berto_bertinho@gmail.com', 'BA10-6588-28F1', 'a', '', 'Integrado', '480006581462697f48b6ff44be2ea3d141def7edr1-334-441v2_uhq.jpg', 'A TUA MAE', '', 'Q', '', '', '', '', NULL),
 (19, 'Marta', 'marta@hotmail.com', '2A13-632C-D743', 'nao', '', 'Aluno', '64ae620054719_55918.jpg', 'Ciências da natureza', '', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', '', '', '$2y$10$vJmmYnaGTRcHw7X.bLYC1e9GQC5wG4as1ikXUgaZYP592x0n46D7S', NULL),
 (20, 'Bogus Oito', 'bogusoito@cienciaid.com', 'C715-1E14-0978', 'ewf', '', 'Colaborador', '6528461fca81a_depositphotos_10962027.jpg', 'efw', '', '0000-0003-2433-0883', '', '', '', '$2y$10$F.DlN/IiCga6p7TwHvrtMuquSs/zSoctKzSiZ9dW0qqx76cpeCR.G', NULL),
 (21, 'João Mendes Moreira', 'jmm.fccn2018@gmail.com', 'AF1B-8D21-A7AF', '123', '', 'Colaborador', '6528463fcd40c_Valton-Pessoa-868x1300.jpg', '213', '', '0000-0002-6504-2987', '', '', '', '$2y$10$kwh7wopOVmpL63xfEaoa6.zcfq9vTk3.DJp0ZbEgk3Ei1AzQrulwu', NULL),
 (22, 'João', 'joao@test.test', '1019-2EC9-876A', 'dw', '', 'Colaborador', '65284635052d6_istockphoto-1029759424-170667a.jpg', 'wqd', '', '0000-0003-2433-0883', '', '', '', '$2y$10$j5FjnHPoVZfSnUmqLIFY..M4kq.MgCmvXCx3gHciTbag/2Un82g9K', NULL),
-(25, 'Carolina Santos', 'c.santos@ipt.pt', '', '', '', 'Externo', '652e5eb59976f_joana-bento-rodrigues.jpg', '', '', '', '', '', '', '$2y$10$R3vWRFOS4G4QRMOTugChBuqECYujjf5T6weWqjMBOJOlcw16ox8lu', NULL);
+(25, 'Carolina Santos', '', '', '', '', 'Externo', '652e5eb59976f_joana-bento-rodrigues.jpg', '', '', '', '', '', '', '$2y$10$R3vWRFOS4G4QRMOTugChBuqECYujjf5T6weWqjMBOJOlcw16ox8lu', NULL),
+(26, 'Diogo', 'aluno23030@ipt.pt', '0C1F-9648-2A49', 'gosto de tostas', '', 'Integrado', '660eddd201336_IPT_C_1-horizontal-cores-img-fundo-transparente.png', 'tostas', '', '0000-0003-2433-0883', 'Tostas', 'tostas', 'tostas', '$2y$10$LrzyDaWUSwezlZjTp6UyJ.z5PYMeSTpo4GtuWXRz/5anGMTsPhR5W', NULL),
+(27, 'Gustavo', 'zuca@a.a', 'a', 'a', '', 'Integrado', '660eeb1947ccf_IPT_C_1-horizontal-cores-img-fundo-transparente.png', 'a', '', 'a', 'a', 'a', 'a', '$2y$10$Fv9Oir9uf9szdswucA3hJuXgxUQyQb9mD9XxKrjvfHW8a0w07lw2K', NULL),
+(28, 'teste', 'teste@teste.a', 'ad', 'dasd', '', 'Integrado', '660ef0b718f21_IPT_C_1-horizontal-cores-img-fundo-transparente.png', 'asd', '', 'dasd', 'sadas', 'sdass', 'asda', '$2y$10$MZI4W/sw7YgWBgDOymnXZe7n.nzGobRKIdhPhHjBss0eRUpjpXI46', NULL),
+(43, 'Diogo Pereira', 'aluno23030@ipt.pt', '1234', 'ola', 'ola', 'Integrado', 'fotografia1713296649.jpg', 'Tostas Mistas', 'Tostas Mistas', '1234', '', '', '', '', NULL),
+(70, 'a', 'gughsleite12@gmail.com', 'a', 'a', 'a', 'Integrado', 'fotografia1713462567.jpg', 'a', 'a', 'a', '', '', '', '$2y$10$.SQ83cmsl/ZqOXvVUwmCqeWOZ1itwVrvXATS/5TqixlXYkNE2SN8u', NULL),
+(71, 'Joao Salvador', 'mongo@db.com', '1', '1', '1', 'Integrado', 'fotografia1713883741.jpg', '1', '1', '1', '', '', '', '$2y$10$TrfYugwDkByOfoUCCy9OLuCuBeqMG5fEuE8HrV2GS4W1YWh7EO6wG', NULL),
+(78, 'Gustavooooo', 'aluno21530@ipt.pt', 'kasdjk', '1212', '1212', 'Integrado', 'fotografia1715291204.JPG', 'tudo', 'tudo', 'sds', '', '', '', '$2y$10$g2LmTAjPBef0gj3oEKNKT.OyPDOvXqIi6Kzbe6xFY9uM9vUgDaoka', NULL),
+(79, 'nsacpnaskdjlskadn', 'cuzinho32@gmail.com', '34343', '213123123', '213123123', 'Colaborador', 'fotografia1715876336.JPG', '12312', '12312', '34324', '', '', '', '$2y$10$aQMnNoS8f9VLYFJ.XJZyD.FrdAq4KFxD7icZaYLY/dEJs3EXN/gkK', NULL),
+(80, 'qweqweqw', 'eqwewqeqwe@gmail.com', '2A13-632C-D744', 'qweqwe', 'wqeqwe', 'Colaborador', '664632fa24c2d_IMG-20230518-WA0006.jpg', 'wqeeqweqw', 'wqeqweqwe', '2A13-632C-D743', '2A13-632C-D743', '2A13-632C-D743', '2A13-632C-D743', '$2y$10$xffCtG9yyk87RY.xp1VhX.1HjgiPDK40pMUcpvH/cOp6U.cyUtZn6', NULL),
+(81, 'Joaquim', 'joaquimrmelofilho@gmail.com', '2A13-632C-D744', 'alskndka.', 'lsadlksaldk', 'Integrado', '6647b80832297_IMG-20230518-WA0006.jpg', 'mas,nbd,nmasbd,', 'ajskdbnasjkndbljkas', '2A13-632C-D743', '2A13-632C-D743', '2A13-632C-D743', '2A13-632C-D743', '$2y$10$9cktfQDkbxnc/Tb52DxTduWG8STB7dkNHM7aqAvO4TToGf4IuXF0C', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `investigadores_projetos`
+-- Estrutura da tabela `investigadores_projetos`
 --
 
 CREATE TABLE `investigadores_projetos` (
   `investigadores_id` int(11) NOT NULL,
-  `projetos_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `projetos_id` int(11) NOT NULL,
+  `gestor` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `investigadores_projetos`
+-- Extraindo dados da tabela `investigadores_projetos`
 --
 
-INSERT INTO `investigadores_projetos` (`investigadores_id`, `projetos_id`) VALUES
-(11, 20),
-(11, 23),
-(11, 24),
-(11, 27),
-(12, 20),
-(12, 24),
-(12, 25),
-(12, 26),
-(19, 20),
-(19, 21),
-(19, 26),
-(19, 27),
-(20, 20),
-(21, 20),
-(22, 20),
-(25, 20);
+INSERT INTO `investigadores_projetos` (`investigadores_id`, `projetos_id`, `gestor`) VALUES
+(11, 20, NULL),
+(11, 23, NULL),
+(11, 24, NULL),
+(11, 27, NULL),
+(12, 20, NULL),
+(12, 24, NULL),
+(12, 25, NULL),
+(12, 26, NULL),
+(19, 20, NULL),
+(19, 21, NULL),
+(19, 26, NULL),
+(19, 27, NULL),
+(20, 20, NULL),
+(21, 20, NULL),
+(22, 20, NULL),
+(25, 20, NULL),
+(26, 54, 26),
+(27, 54, 26);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `noticias`
+-- Estrutura da tabela `noticias`
 --
 
 CREATE TABLE `noticias` (
@@ -169,22 +239,27 @@ CREATE TABLE `noticias` (
   `imagem` varchar(100) NOT NULL,
   `data` date NOT NULL,
   `ultimo_editor` int(11) DEFAULT NULL,
-  `timestamp_editado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `timestamp_editado` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `noticias`
+-- Extraindo dados da tabela `noticias`
 --
 
 INSERT INTO `noticias` (`id`, `titulo`, `titulo_en`, `conteudo`, `conteudo_en`, `imagem`, `data`, `ultimo_editor`, `timestamp_editado`) VALUES
 (1, 'Visita do Prof. Dr. Silviu Marian Miloiu, Vice-Reitor da Valahia Targoviste University na Roménia', '', '<p>O TECHN&amp;ART recebeu a visita do Prof. Dr. Silviu Marian Miloiu, Vice-Reitor da Valahia Targoviste University na Roménia. A visita realizou-se no seguimento da reunião transnacional no âmbito da KreativEU, Knowledge and Creativity European University, liderada pelo Instituto Politécnico de Tomar</p>', '', '310055055_584688733449528_4008002950286842705_n.jpg', '2022-03-10', 1, '2023-10-20 12:14:14'),
 (2, 'OPExCATer na Roda de conversa sobre Ruralidade do Museu Agrícola de Riachos', '', 'Na passada 5ª feira, dia 21 de julho, decorreu no Museu Agrícola de Riachos (entidade parceira do projeto OPExCATer) uma atividade denominada “Roda de conversa sobre Ruralidade”. Contou com a presença de Mário Antunes (coordenador da Reserva da Biosfera do Paul do Boquilobo e parceiro do Projeto), José Cunha Barros e Carlos Simões Nuno (antropólogos) e Luiz Oosterbeek ( coordenador da Cátedra UNESCO de Humanidades e Paisagens Culturais). A sessão foi dinamizada por Luís Mota Figueira – investigador encarregue da Tarefa 3 do referido projeto. Também esteve integrada nos trabalhos a Investigadora responsável – Cecília Baptista.', '', '20220721_203209.jpg', '2022-07-25', NULL, '2023-07-10 22:10:17'),
-(3, 'Visita de João Freitas Coroado, Célio Gonçalo Marques e Eugénio Almeida à Universidade de Malta', 'Visit of João Freitas Coroado, Célio Gonçalo Marques and Eugénio Almeida to the University of Malta', '<p>Entre os dias <strong>20 e 24 de novembro</strong>, João Freitas Coroado, Presidente do Politécnico de Tomar e Investigador Integrado do TECHN&amp;ART, Célio Gonçalo Marques, Diretor do TECHN&amp;ART e o professor Eugénio Almeida, deslocaram-se à Universidade de Malta com o intuito de promover parcerias ao nível da formação e investigação, nomeadamente nos domínios científicos do TECHN&amp;ART e das restantes unidades de I&amp;D. A comitiva do IPT foi recebida pelo Reitor da Universidade, Alfred J. Vella, e pela sua equipa, tendo também realizado reuniões com o diretor e professores da Faculdade de Tecnologias de Informação e Comunicação e com o Diretor do Instituto dos Sistemas da Terra.</p>', '<p>Between the<strong> 20th and 24th of November,</strong> João Freitas Coroado, President of the Polytechnic of Tomar and Integrated Researcher at TECHN&amp;ART, Célio Gonçalo Marques, Director of TECHN&amp;ART and professor Eugénio Almeida, traveled to the University of Malta with the aim of promoting partnerships at the level of training and research, particularly in the scientific domains of TECHN&amp;ART and the remaining R&amp;D units. The IPT delegation was received by the Rector of the University, Alfred J. Vella, and his team, and also held meetings with the director and professors of the Faculty of Information and Communication Technologies and with the Director of the Earth Systems Institute.</p>', '65326284ad0c5_652d7de8c96ca_WhatsApp Image 2022-12-02 at 09.14.06 (1).jpeg', '2023-02-12', 1, '2023-10-20 11:23:15');
+(3, 'Visita de João Freitas Coroado, Célio Gonçalo Marques e Eugénio Almeida à Universidade de Malta', 'Visit of João Freitas Coroado, Célio Gonçalo Marques and Eugénio Almeida to the University of Malta', '<p>Entre os dias <strong>20 e 24 de novembro</strong>, João Freitas Coroado, Presidente do Politécnico de Tomar e Investigador Integrado do TECHN&amp;ART, Célio Gonçalo Marques, Diretor do TECHN&amp;ART e o professor Eugénio Almeida, deslocaram-se à Universidade de Malta com o intuito de promover parcerias ao nível da formação e investigação, nomeadamente nos domínios científicos do TECHN&amp;ART e das restantes unidades de I&amp;D. A comitiva do IPT foi recebida pelo Reitor da Universidade, Alfred J. Vella, e pela sua equipa, tendo também realizado reuniões com o diretor e professores da Faculdade de Tecnologias de Informação e Comunicação e com o Diretor do Instituto dos Sistemas da Terra.</p>', '<p>Between the<strong> 20th and 24th of November,</strong> João Freitas Coroado, President of the Polytechnic of Tomar and Integrated Researcher at TECHN&amp;ART, Célio Gonçalo Marques, Director of TECHN&amp;ART and professor Eugénio Almeida, traveled to the University of Malta with the aim of promoting partnerships at the level of training and research, particularly in the scientific domains of TECHN&amp;ART and the remaining R&amp;D units. The IPT delegation was received by the Rector of the University, Alfred J. Vella, and his team, and also held meetings with the director and professors of the Faculty of Information and Communication Technologies and with the Director of the Earth Systems Institute.</p>', '65326284ad0c5_652d7de8c96ca_WhatsApp Image 2022-12-02 at 09.14.06 (1).jpeg', '2023-02-12', 1, '2023-10-20 11:23:15'),
+(4, 'Testye\\', 'Test', '<p>wewewe</p>', '<p>qeqweqwewqe</p>', 'https://i.imgur.com/uRUkE26.jpeg', '2024-05-10', 1, '2024-05-10 14:23:43'),
+(5, 'Mais um teste', 'New Test', '<p>ijwqijwi</p>', '<p>osdhoijdio</p>', '664b53b8da32a_IMG-20230518-WA0006.jpg', '2024-05-20', 1, '2024-05-20 13:44:24'),
+(6, 'Testando', 'Testing', '<p>Testando</p>', '<p>Testing</p>', 'https://i.imgur.com/3OsyYa6.png', '2024-06-06', 1, '2024-06-06 12:29:43'),
+(7, 'Outro teste', 'Another test', '<p>Outro Teste</p>', '<p>Another test</p>', 'https://i.imgur.com/d1lOtRK.jpeg', '2024-06-06', 1, '2024-06-06 12:32:34'),
+(8, 'Outro outro Teste', 'Another Another Test', '<p>Outro outro Teste</p>', '<p>Another another test</p>', 'https://i.imgur.com/O90BAxB.jpeg', '2024-06-06', 1, '2024-06-06 12:36:57');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oportunidades`
+-- Estrutura da tabela `oportunidades`
 --
 
 CREATE TABLE `oportunidades` (
@@ -196,11 +271,11 @@ CREATE TABLE `oportunidades` (
   `conteudo_en` mediumtext NOT NULL,
   `visivel` tinyint(1) NOT NULL,
   `ultimo_editor` int(11) DEFAULT NULL,
-  `timestamp_editado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `timestamp_editado` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `oportunidades`
+-- Extraindo dados da tabela `oportunidades`
 --
 
 INSERT INTO `oportunidades` (`id`, `imagem`, `titulo`, `titulo_en`, `conteudo`, `conteudo_en`, `visivel`, `ultimo_editor`, `timestamp_editado`) VALUES
@@ -211,7 +286,7 @@ INSERT INTO `oportunidades` (`id`, `imagem`, `titulo`, `titulo_en`, `conteudo`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `projetos`
+-- Estrutura da tabela `projetos`
 --
 
 CREATE TABLE `projetos` (
@@ -235,26 +310,28 @@ CREATE TABLE `projetos` (
   `facebook` varchar(255) NOT NULL,
   `facebook_en` varchar(100) NOT NULL,
   `fotografia` varchar(100) NOT NULL,
-  `concluido` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `concluido` tinyint(1) NOT NULL DEFAULT 0,
+  `gestor` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `projetos`
+-- Extraindo dados da tabela `projetos`
 --
 
-INSERT INTO `projetos` (`id`, `nome`, `nome_en`, `descricao`, `descricao_en`, `sobreprojeto`, `sobreprojeto_en`, `referencia`, `referencia_en`, `areapreferencial`, `areapreferencial_en`, `financiamento`, `financiamento_en`, `ambito`, `ambito_en`, `site`, `site_en`, `facebook`, `facebook_en`, `fotografia`, `concluido`) VALUES
-(20, 'Figura', '', 'Integer a erat massa. Nunc sed pretium nulla. Donec tempor velit dui, sagittis gravida erat hendrerit ut.', '', '<p>A história de todos sobre o euismod. Diz-se que viveu nesta rua. Até os ultricies na urna, a massa da garganta, mas sempre diam. Fãs de futebol ao vivo, suaves ou justos, ele quer colocá-lo no ringue.</p>', '', '543212345', '', 'Maecenas', '', '4321€', '', 'Phasellus', '', '', '', '', '', 'P1310166.JPG', 0),
-(21, 'INSIGNIA', '', 'Morbi mauris sem, convallis ut commodo quis, consequat ac velit.', '', 'Phasellus dapibus eros vel fringilla ullamcorper. Donec sit amet tempor neque, sit amet facilisis ligula. Fusce eget lacinia lectus. Morbi laoreet auctor vehicula. Cras eget semper sem.', '', '123456789', '', 'Aliquam', '', '3333€', '', 'Vivamus', '', '', '', '', '', 'Castelo de Abrantes1.jpg', 0),
-(23, 'FesTab', '', 'Proin blandit sagittis dolor quis porttitor. Phasellus tortor felis, eleifend at nisi ac, pulvinar malesuada lectus.', '', 'Nunc non justo vel mauris semper rutrum. Curabitur at feugiat felis, nec cursus leo. Vivamus euismod sollicitudin tempor. Nunc non augue diam. Mauris rutrum, lorem a pellentesque finibus, tellus ante vulputate elit, at venenatis lorem nunc nec risus.', '', '123454321', '', 'Scelerisque', '', '1234€', '', 'Phasellus', '', '', '', '', '', 'IMG_6431.JPG', 0),
-(24, 'MurArte', '', 'Donec in urna ultricies, faucibus massa sed, semper diam.', '', 'Maecenas auctor semper metus consectetur malesuada. Phasellus feugiat tellus tellus, eu convallis turpis malesuada id. Nullam ac laoreet neque, sed euismod augue.', '', '123456789', '', 'Fringilla', '', '3214€', '', 'Volutpat', '', '', '', '', '', '5c.JPG', 0),
-(25, 'NATBIO', '', 'Quisque pellentesque euismod condimentum. In hac habitasse platea dictumst.', '', 'Donec in urna ultricies, faucibus massa sed, semper diam. Vivamus turpis nisl, mollis vel justo consectetur, fringilla posuere velit. Maecenas auctor semper metus consectetur malesuada.', '', '654321789', '', 'Pellentesque', '', '7453€', '', 'Porttitor', '', '', '', '', '', '20220208_103402.jpg', 0),
-(26, 'POR1FIO', '', 'Nullam ac laoreet neque, sed euismod augue.', '', 'Nunc non justo vel mauris semper rutrum. Curabitur at feugiat felis, nec cursus leo. Vivamus euismod sollicitudin tempor. Nunc non augue diam.', '', '56787654', '', 'Consectetur', '', '4760€', '', 'Lacinia', '', '', '', '', '', 'DSC_0010.JPG', 0),
-(27, 'WaterRIVER. tour', '', 'Gestão sustentável da água na estratégia do turismo náutico do Médio Tejo', 'Sustainable water management in the nautical tourism strategy of Médio Tejo.', '<p>O turismo náutico desenvolvido através do recurso água-rio é fundamental para a consolidação de produtos turísticos que agregam nesta dimensão concetual um valor acrescentado para o território regional e nacional, de acordo com a Estratégia Turismo 2027. A água é um dos seis ativos diferenciadores do destino Portugal, surgindo mesmo como elemento prioritário de intervenção e de extrema importância, visto que a “a água constitui o suporte de ativos únicos localizados na sua grande maioria no interior do país e com potencial turístico” (Portugal, 2017). A Agenda 2030: Objetivos para o Desenvolvimento Sustentável (ODS), reforça ações que visem proteger e salvaguardar o património cultural e natural. Dessa forma, o turismo náutico surge como um importante produto dinamizador do território, podendo provocar a procura e a atratividade turística territorial. O rio e a sua valorização para a prática de wakeboard no Médio Tejo é essencial para uma gestão sustentável do território.&nbsp;</p><figure class=\"image image_resized image-style-side\" style=\"width:23.93%;\"><img src=\"http://localhost/Tech-Art/backoffice/assets/imgs_texto/image_6532f58d4fcda.png\"></figure><p>O projeto de wakeboard em Portugal, lançado em 2015, colocou o Médio Tejo no mapa dos maiores circuitos de wakeboard mundial. Numa extensão de cerca de 30 km, na Albufeira do Castelo de Bode foi criada a primeira estância de wakeboard do mundo com a implementação de cinco cable parks: Fernandaires (Vila de Rei), Lago Azul (Ferreira do Zêzere), Aldeia do Mato, (Abrantes), Trízio (Sertã) e Praia dos Montes (Tomar). Neste sentido, este projeto foca-se no turismo náutico através da prática do wakeboard com o objetivo de perceber as lógicas de atratividade do território numa ótica de valorização do património cultural e natural (ambiental).</p>', '<p>Nautical tourism developed through the use of river water is essential for the consolidation of tourist products that add value to the regional and national territory, according to the Tourism Strategy 2027. Water is one of the six differentiating assets of the destination Portugal, emerging as a priority element of intervention and extreme importance, as \"water constitutes the support of unique assets located mostly in the interior of the country and with tourism potential\" (Portugal, 2017). The 2030 Agenda: Sustainable Development Goals (SDGs) reinforces actions aimed at protecting and safeguarding cultural and natural heritage. Therefore, nautical tourism emerges as an important driving force for the territory, capable of generating demand and territorial tourist attractiveness. The river and its valorization for wakeboarding in Médio Tejo are essential for sustainable territory management. The wakeboarding project in Portugal, launched in 2015, put Médio Tejo on the map of the largest wakeboarding circuits worldwide. In an area of about 30 km, the first wakeboarding resort in the world was created in the Castelo de Bode reservoir, with the implementation of five cable parks: Fernandaires (Vila de Rei), Lago Azul (Ferreira do Zêzere), Aldeia do Mato (Abrantes), Trízio (Sertã), and Praia dos Montes (Tomar). In this sense, this project focuses on nautical tourism through wakeboarding, with the aim of understanding the attractiveness of the territory in terms of cultural and natural (environmental) heritage enhancement.</p>', 'CFPI2020/01', '', 'Desenvolvimento sustentável e valorização do património cultural', '', '17 000,00 €', '', 'Nacional', 'Nacional', 'http://www.techneart.ipt.pt/waterivertour/pt/', 'http://www.techneart.ipt.pt/waterivertour/en/', '', '', '652d137503eca_64ad053b7a046_WaterRiver.tour.jpg', 1);
+INSERT INTO `projetos` (`id`, `nome`, `nome_en`, `descricao`, `descricao_en`, `sobreprojeto`, `sobreprojeto_en`, `referencia`, `referencia_en`, `areapreferencial`, `areapreferencial_en`, `financiamento`, `financiamento_en`, `ambito`, `ambito_en`, `site`, `site_en`, `facebook`, `facebook_en`, `fotografia`, `concluido`, `gestor`) VALUES
+(20, 'Figura', '', 'Integer a erat massa. Nunc sed pretium nulla. Donec tempor velit dui, sagittis gravida erat hendrerit ut.', '', '<p>A história de todos sobre o euismod. Diz-se que viveu nesta rua. Até os ultricies na urna, a massa da garganta, mas sempre diam. Fãs de futebol ao vivo, suaves ou justos, ele quer colocá-lo no ringue.</p>', '', '543212345', '', 'Maecenas', '', '4321€', '', 'Phasellus', '', '', '', '', '', 'P1310166.JPG', 0, NULL),
+(21, 'INSIGNIA', '', 'Morbi mauris sem, convallis ut commodo quis, consequat ac velit.', '', 'Phasellus dapibus eros vel fringilla ullamcorper. Donec sit amet tempor neque, sit amet facilisis ligula. Fusce eget lacinia lectus. Morbi laoreet auctor vehicula. Cras eget semper sem.', '', '123456789', '', 'Aliquam', '', '3333€', '', 'Vivamus', '', '', '', '', '', 'Castelo de Abrantes1.jpg', 0, NULL),
+(23, 'FesTab', '', 'Proin blandit sagittis dolor quis porttitor. Phasellus tortor felis, eleifend at nisi ac, pulvinar malesuada lectus.', '', 'Nunc non justo vel mauris semper rutrum. Curabitur at feugiat felis, nec cursus leo. Vivamus euismod sollicitudin tempor. Nunc non augue diam. Mauris rutrum, lorem a pellentesque finibus, tellus ante vulputate elit, at venenatis lorem nunc nec risus.', '', '123454321', '', 'Scelerisque', '', '1234€', '', 'Phasellus', '', '', '', '', '', 'IMG_6431.JPG', 0, NULL),
+(24, 'MurArte', '', 'Donec in urna ultricies, faucibus massa sed, semper diam.', '', 'Maecenas auctor semper metus consectetur malesuada. Phasellus feugiat tellus tellus, eu convallis turpis malesuada id. Nullam ac laoreet neque, sed euismod augue.', '', '123456789', '', 'Fringilla', '', '3214€', '', 'Volutpat', '', '', '', '', '', '5c.JPG', 0, NULL),
+(25, 'NATBIO', '', 'Quisque pellentesque euismod condimentum. In hac habitasse platea dictumst.', '', 'Donec in urna ultricies, faucibus massa sed, semper diam. Vivamus turpis nisl, mollis vel justo consectetur, fringilla posuere velit. Maecenas auctor semper metus consectetur malesuada.', '', '654321789', '', 'Pellentesque', '', '7453€', '', 'Porttitor', '', '', '', '', '', '20220208_103402.jpg', 0, NULL),
+(26, 'POR1FIO', '', 'Nullam ac laoreet neque, sed euismod augue.', '', 'Nunc non justo vel mauris semper rutrum. Curabitur at feugiat felis, nec cursus leo. Vivamus euismod sollicitudin tempor. Nunc non augue diam.', '', '56787654', '', 'Consectetur', '', '4760€', '', 'Lacinia', '', '', '', '', '', 'DSC_0010.JPG', 0, NULL),
+(27, 'WaterRIVER. tour', '', 'Gestão sustentável da água na estratégia do turismo náutico do Médio Tejo', 'Sustainable water management in the nautical tourism strategy of Médio Tejo.', '<p>O turismo náutico desenvolvido através do recurso água-rio é fundamental para a consolidação de produtos turísticos que agregam nesta dimensão concetual um valor acrescentado para o território regional e nacional, de acordo com a Estratégia Turismo 2027. A água é um dos seis ativos diferenciadores do destino Portugal, surgindo mesmo como elemento prioritário de intervenção e de extrema importância, visto que a “a água constitui o suporte de ativos únicos localizados na sua grande maioria no interior do país e com potencial turístico” (Portugal, 2017). A Agenda 2030: Objetivos para o Desenvolvimento Sustentável (ODS), reforça ações que visem proteger e salvaguardar o património cultural e natural. Dessa forma, o turismo náutico surge como um importante produto dinamizador do território, podendo provocar a procura e a atratividade turística territorial. O rio e a sua valorização para a prática de wakeboard no Médio Tejo é essencial para uma gestão sustentável do território.&nbsp;</p><figure class=\"image image_resized image-style-side\" style=\"width:23.93%;\"><img src=\"http://localhost/Tech-Art/backoffice/assets/imgs_texto/image_6532f58d4fcda.png\"></figure><p>O projeto de wakeboard em Portugal, lançado em 2015, colocou o Médio Tejo no mapa dos maiores circuitos de wakeboard mundial. Numa extensão de cerca de 30 km, na Albufeira do Castelo de Bode foi criada a primeira estância de wakeboard do mundo com a implementação de cinco cable parks: Fernandaires (Vila de Rei), Lago Azul (Ferreira do Zêzere), Aldeia do Mato, (Abrantes), Trízio (Sertã) e Praia dos Montes (Tomar). Neste sentido, este projeto foca-se no turismo náutico através da prática do wakeboard com o objetivo de perceber as lógicas de atratividade do território numa ótica de valorização do património cultural e natural (ambiental).</p>', '<p>Nautical tourism developed through the use of river water is essential for the consolidation of tourist products that add value to the regional and national territory, according to the Tourism Strategy 2027. Water is one of the six differentiating assets of the destination Portugal, emerging as a priority element of intervention and extreme importance, as \"water constitutes the support of unique assets located mostly in the interior of the country and with tourism potential\" (Portugal, 2017). The 2030 Agenda: Sustainable Development Goals (SDGs) reinforces actions aimed at protecting and safeguarding cultural and natural heritage. Therefore, nautical tourism emerges as an important driving force for the territory, capable of generating demand and territorial tourist attractiveness. The river and its valorization for wakeboarding in Médio Tejo are essential for sustainable territory management. The wakeboarding project in Portugal, launched in 2015, put Médio Tejo on the map of the largest wakeboarding circuits worldwide. In an area of about 30 km, the first wakeboarding resort in the world was created in the Castelo de Bode reservoir, with the implementation of five cable parks: Fernandaires (Vila de Rei), Lago Azul (Ferreira do Zêzere), Aldeia do Mato (Abrantes), Trízio (Sertã), and Praia dos Montes (Tomar). In this sense, this project focuses on nautical tourism through wakeboarding, with the aim of understanding the attractiveness of the territory in terms of cultural and natural (environmental) heritage enhancement.</p>', 'CFPI2020/01', '', 'Desenvolvimento sustentável e valorização do património cultural', '', '17 000,00 €', '', 'Nacional', 'Nacional', 'http://www.techneart.ipt.pt/waterivertour/pt/', 'http://www.techneart.ipt.pt/waterivertour/en/', '', '', '652d137503eca_64ad053b7a046_WaterRiver.tour.jpg', 1, NULL),
+(54, 'eqweqwe', '', 'qeqweq', '', '<p>eqeqwe</p>', '', 'qweqwe', '', 'qweqe', '', 'qweqwe', '', 'qweqe', '', 'eqeq', '', 'qweqwe', '', '66180035c09d9_image.jpg', 0, 26);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `publicacoes`
+-- Estrutura da tabela `publicacoes`
 --
 
 CREATE TABLE `publicacoes` (
@@ -265,10 +342,10 @@ CREATE TABLE `publicacoes` (
   `cidade` varchar(100) DEFAULT NULL,
   `tipo` varchar(100) NOT NULL,
   `visivel` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `publicacoes`
+-- Extraindo dados da tabela `publicacoes`
 --
 
 INSERT INTO `publicacoes` (`idPublicacao`, `dados`, `data`, `pais`, `cidade`, `tipo`, `visivel`) VALUES
@@ -659,16 +736,16 @@ INSERT INTO `publicacoes` (`idPublicacao`, `dados`, `data`, `pais`, `cidade`, `t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `publicacoes_investigadores`
+-- Estrutura da tabela `publicacoes_investigadores`
 --
 
 CREATE TABLE `publicacoes_investigadores` (
   `publicacao` varchar(50) NOT NULL,
   `investigador` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `publicacoes_investigadores`
+-- Extraindo dados da tabela `publicacoes_investigadores`
 --
 
 INSERT INTO `publicacoes_investigadores` (`publicacao`, `investigador`) VALUES
@@ -1056,17 +1133,17 @@ INSERT INTO `publicacoes_investigadores` (`publicacao`, `investigador`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `publicacoes_tipos`
+-- Estrutura da tabela `publicacoes_tipos`
 --
 
 CREATE TABLE `publicacoes_tipos` (
   `valor_API` varchar(100) NOT NULL,
   `valor_site_pt` varchar(255) NOT NULL,
   `valor_site_en` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `publicacoes_tipos`
+-- Extraindo dados da tabela `publicacoes_tipos`
 --
 
 INSERT INTO `publicacoes_tipos` (`valor_API`, `valor_site_pt`, `valor_site_en`) VALUES
@@ -1110,145 +1187,169 @@ INSERT INTO `publicacoes_tipos` (`valor_API`, `valor_site_pt`, `valor_site_en`) 
 ('working-paper', 'Outros', 'Others');
 
 --
--- Indexes for dumped tables
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `administradores`
+-- Índices para tabela `administradores`
 --
 ALTER TABLE `administradores`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `admissoes`
+-- Índices para tabela `admissoes`
 --
 ALTER TABLE `admissoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `investigadores`
+-- Índices para tabela `assinantes`
+--
+ALTER TABLE `assinantes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `imagens_home`
+--
+ALTER TABLE `imagens_home`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `investigadores`
 --
 ALTER TABLE `investigadores`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `investigadores_projetos`
+-- Índices para tabela `investigadores_projetos`
 --
 ALTER TABLE `investigadores_projetos`
   ADD PRIMARY KEY (`investigadores_id`,`projetos_id`),
   ADD KEY `projetos_id` (`projetos_id`);
 
 --
--- Indexes for table `noticias`
+-- Índices para tabela `noticias`
 --
 ALTER TABLE `noticias`
   ADD PRIMARY KEY (`id`),
   ADD KEY `noticias_administrador_ibfk_1` (`ultimo_editor`);
 
 --
--- Indexes for table `oportunidades`
+-- Índices para tabela `oportunidades`
 --
 ALTER TABLE `oportunidades`
   ADD PRIMARY KEY (`id`),
   ADD KEY `oportunidades_administrador_ibfk_1` (`ultimo_editor`);
 
 --
--- Indexes for table `projetos`
+-- Índices para tabela `projetos`
 --
 ALTER TABLE `projetos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `publicacoes`
+-- Índices para tabela `publicacoes`
 --
 ALTER TABLE `publicacoes`
   ADD PRIMARY KEY (`idPublicacao`),
   ADD KEY `publicacoes_fk_tipo` (`tipo`);
 
 --
--- Indexes for table `publicacoes_investigadores`
+-- Índices para tabela `publicacoes_investigadores`
 --
 ALTER TABLE `publicacoes_investigadores`
   ADD PRIMARY KEY (`publicacao`,`investigador`),
   ADD KEY `investigador` (`investigador`);
 
 --
--- Indexes for table `publicacoes_tipos`
+-- Índices para tabela `publicacoes_tipos`
 --
 ALTER TABLE `publicacoes_tipos`
   ADD PRIMARY KEY (`valor_API`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `administradores`
+-- AUTO_INCREMENT de tabela `administradores`
 --
 ALTER TABLE `administradores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `admissoes`
+-- AUTO_INCREMENT de tabela `admissoes`
 --
 ALTER TABLE `admissoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
--- AUTO_INCREMENT for table `investigadores`
+-- AUTO_INCREMENT de tabela `assinantes`
+--
+ALTER TABLE `assinantes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+
+--
+-- AUTO_INCREMENT de tabela `imagens_home`
+--
+ALTER TABLE `imagens_home`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de tabela `investigadores`
 --
 ALTER TABLE `investigadores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
--- AUTO_INCREMENT for table `noticias`
+-- AUTO_INCREMENT de tabela `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `oportunidades`
+-- AUTO_INCREMENT de tabela `oportunidades`
 --
 ALTER TABLE `oportunidades`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `projetos`
+-- AUTO_INCREMENT de tabela `projetos`
 --
 ALTER TABLE `projetos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
--- Constraints for dumped tables
+-- Restrições para despejos de tabelas
 --
 
 --
--- Constraints for table `investigadores_projetos`
+-- Limitadores para a tabela `investigadores_projetos`
 --
 ALTER TABLE `investigadores_projetos`
   ADD CONSTRAINT `investigadores_projetos_ibfk_1` FOREIGN KEY (`investigadores_id`) REFERENCES `investigadores` (`id`),
   ADD CONSTRAINT `investigadores_projetos_ibfk_2` FOREIGN KEY (`projetos_id`) REFERENCES `projetos` (`id`);
 
 --
--- Constraints for table `noticias`
+-- Limitadores para a tabela `noticias`
 --
 ALTER TABLE `noticias`
   ADD CONSTRAINT `noticias_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `oportunidades`
+-- Limitadores para a tabela `oportunidades`
 --
 ALTER TABLE `oportunidades`
   ADD CONSTRAINT `oportunidades_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `publicacoes`
+-- Limitadores para a tabela `publicacoes`
 --
 ALTER TABLE `publicacoes`
   ADD CONSTRAINT `publicacoes_fk_tipo` FOREIGN KEY (`tipo`) REFERENCES `publicacoes_tipos` (`valor_API`);
 
 --
--- Constraints for table `publicacoes_investigadores`
+-- Limitadores para a tabela `publicacoes_investigadores`
 --
 ALTER TABLE `publicacoes_investigadores`
   ADD CONSTRAINT `publicacoes_investigadores_ibfk_1` FOREIGN KEY (`publicacao`) REFERENCES `publicacoes` (`idPublicacao`) ON DELETE CASCADE,
