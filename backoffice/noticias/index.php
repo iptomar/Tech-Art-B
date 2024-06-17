@@ -71,7 +71,7 @@ $result = mysqli_query($conn, $sql);
 							echo "<td style='width:250px;'>" . $row["titulo"] . "</td>";
 							echo "<td style='width:500px; height:100px;'>" . "<div class='div-textarea' style='width:100%; height:100%;'>" . $row["conteudo"] . "</div>" . "</td>";
 							echo "<td style='width:250px;'>" . $row["data"] . "</td>";
-							echo "<td><img src='../assets/noticias/$row[imagem]' width = '100px' height = '100px'></td>";
+							echo "<td><img src='$row[imagem]' width = '100px' height = '100px'></td>";
 							if ($_SESSION["autenticado"] == "administrador") {
 								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
 								echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
